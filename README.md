@@ -10,7 +10,7 @@ This application is a discussion board designed for and inclusive of all womxn c
 
 __DEMO__
 
-For demo, visit ('url')
+For demo, visit (url)
 
 __UI/Design Aesthetics__
 -Colors: Soft naturals and relaxing colors
@@ -32,12 +32,14 @@ __List of Technologies Used:
 -Trello
 -Lucidchat (Wireframe, ERD)
 
+__Trello__
 
+Trello Board: https://trello.com/b/fCThoBFH/wom-nology
 
 __Wireframe__
 
-Wireframe('https://i.imgur.com/HTN6PUH.png')
+![Wireframe](https://i.imgur.com/HTN6PUH.png)
 
 __ERD/Data Modeling__
 
-ERD('https://i.imgur.com/Nm6Cfrr.png')
+![ERD](https://i.imgur.com/Nm6Cfrr.png)
