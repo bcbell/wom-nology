@@ -13,24 +13,26 @@ __DEMO__
 For demo, visit (url)
 
 __UI/Design Aesthetics__
--Colors: Soft naturals and relaxing colors
--Font:
+- Colors: Soft naturals and relaxing colors
+- Font:
 
 __Developer Overview__
--CRUD (Create, Read, Update, Delete)
--MVT (Model, View, Template)
--API:
+- CRUD (Create, Read, Update, Delete)
+- MVT (Model, View, Template)
+- API:
 
-__List of Technologies Used: 
+__List of Technologies Used:__
+- Python
+- Django
+- HTML
+- CSS
+- Markdown
+- Favicon
+- Heroku
+- Trello
+- Lucidchat (Wireframe, ERD)
 
--Python
--Django
--HTML
--CSS
--Favicon
--Heroku
--Trello
--Lucidchat (Wireframe, ERD)
+__Future Enhancements__
 
 __Trello__
 
