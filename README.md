@@ -30,7 +30,8 @@ __List of Technologies Used:__
 - Favicon
 - Heroku
 - Trello
-- Lucidchat (Wireframe, ERD)
+- Lucidchat (Wireframe)
+- Creately (ERD)
 
 __Future Enhancements__
 
@@ -44,4 +45,4 @@ __Wireframe__
 
 __ERD/Data Modeling__
 
-![ERD](https://i.imgur.com/Nm6Cfrr.png)
+![ERD](https://i.imgur.com/oe3vlHX.png)
