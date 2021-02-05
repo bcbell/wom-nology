@@ -5,8 +5,9 @@
 
 <span>{{user.profile.first_name}}<span>
 <span>{{user.profile.last_name}}</span>
+<h3>{{user.profile.bio}}<h3>
 
-<img style='width: 90%; margin-top:50x; border: 3px solid black;' src="{{avatar.url}}">
+<img style='width: 90%; margin-top:50x; border: 3px solid black;' src="{{user.profile.avatar}}">
 
 
 {% endblock %}

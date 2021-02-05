@@ -4,8 +4,8 @@ from django.db import transaction
 from .forms import UserForm, ProfileForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
-from .models import Profile
-# from .models import Profile, Discussion
+from .models import Profile, Discussion, Reply
+from django.views.generic import ListView
 
 # Create your views here.
 def home(request):
@@ -37,7 +37,10 @@ def signup(request):
         'user_form': user_form,
         'profile_form':profile_form
     })
-
+class DiscussionListView(ListView):
+    model=Discussion
+    template_name= 'main_app/discussion_detail.html'
+    
 # @login_required
 # @transaction
 # def update_profile(request, user_id):

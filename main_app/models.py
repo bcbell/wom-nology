@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import MinLengthValidator
 
 # from django.conf import settings
 
@@ -81,12 +82,6 @@ STATE_CHOICES = (
 	('WY', 'Wyoming')
 )
 
-# def get_path_name(instance, filename):
-#     path='accounts/avatar/'
-#     name= instance.user.id + "_" + instance.user.email
-#     path= path + name
-#     return path
-
 class Profile(models.Model):
     user =models.OneToOneField(User, on_delete=models.CASCADE, related_name= 'profile')
     avatar=models.ImageField(null=True, editable= True)
@@ -119,23 +114,23 @@ def save_user_profile(sender, instance, **kwargs):
 
 #Model Discussion - Foreign Key(User) and ManyToManyField (Reply)
 
-#class Discussion(models.Model):
-    #title= models.CharField(max_length= 500, validators=[MinLengthValidator(3, "Please create a title greater than 3 characters")])
-    #post=models.TextField()
-    #posted_by=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='discussions_owned')
-    #replies= models.ManyToMany(settings.AUTH_USER_MODEL, through='Replies', related_name='discussion_replies')
-    #created_at= models.DateTimeField(auto_now_add=True)
-    #updated_at= models.DateTimeField(auto_now-True)
+class Discussion(models.Model):
+    title= models.CharField(max_length= 500, validators=[MinLengthValidator(3, "Please create a title greater than 3 characters")])
+    post=models.TextField()
+    posted_by=models.ForeignKey(User, on_delete=models.CASCADE, related_name='discussions_owned')
+    replies= models.ManyToManyField(User, through='Reply', related_name='discussion_replies')
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
 
-    #def __str__(self):
-        #return self.title
+    def __str__(self):
+        return self.title
 
 #Model Reply- Foreign Keys (User and Discussion)
 
-# class Reply(models.Model):
-    #post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
-    #picture= models.BinaryField(null=True, editable=True)
-    #discussion= models.ForeignKey(Discussion, on_delete=models.CASCADE)
-    #posted_by=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    #created_at= models.DateTimeField(auto_now_add=True)
-    #updated_at= models.DateTimeField(auto_now-True)
+class Reply(models.Model):
+    post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
+    avatar= models.BinaryField(null=True, editable=True)
+    discussion= models.ForeignKey(Discussion, on_delete=models.CASCADE)
+    posted_by=models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
