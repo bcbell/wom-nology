@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>{{ user }}</h1>
+
+<span>{{profile}}<span>
+<span>{{profile.name}}</span>
+
+<img style='width: 90%; margin-top:50px; border: 3px solid black;' src='{% url 'profile'%}'>
+
+
+{% endblock %}

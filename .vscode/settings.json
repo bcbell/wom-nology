@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/Users/brittanycoleman/.pyenv/versions/wom-nology/bin/python"
+    "python.pythonPath": "/Users/brittanycoleman/.pyenv/versions/wom-nology/bin/python",
+    "python.linting.pylintPath": "pylint_django"
 }
