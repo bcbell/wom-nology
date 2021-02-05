@@ -18,7 +18,6 @@ def profile(request):
     profile=Profile.objects.all()
     return render(request, 'account/profile.html', {'profile': profile})
 
-# @transaction.atomic
 def signup(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
