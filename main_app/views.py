@@ -18,7 +18,7 @@ def profile(request):
     profile=Profile.objects.all()
     return render(request, 'account/profile.html', {'profile': profile})
 
-@transaction.atomic
+# @transaction.atomic
 def signup(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST)
@@ -29,6 +29,8 @@ def signup(request):
             profile_form=ProfileForm(request.POST, instance=user.profile)
             profile_form.full_clean()
             profile_form.save()
+            login(request, user)
+        return redirect('profile')
     else:
         user_form=UserCreationForm()
         profile_form=ProfileForm()
@@ -36,18 +38,6 @@ def signup(request):
         'user_form': user_form,
         'profile_form':profile_form
     })
-
-    # user.profile.birth_date=form.cleaned_data.get('birth_date')
-    # user.profile.bio=form.cleaned_data.get('bio')
-    # user.profile.job_title=form.cleaned_data.get('job_title')
-    # user.profile.location=form.cleaned_data.get('location')
-    # user.profile.it_area.get('it_area')
-    # login(request, user)
-    # return redirect('home')
-    
-    # else:
-    #     form= UserForm()
-    # return render(request, 'signup.html', {'form': form})
 
 # @login_required
 # @transaction

@@ -10,10 +10,4 @@ class Migration(migrations.Migration):
         ('main_app', '0004_auto_20210205_0232'),
     ]
 
-    operations = [
-        migrations.AlterField(
-            model_name='profile',
-            name='avatar',
-            field=models.ImageField(blank=True, null=True, upload_to=main_app.models.get_path_name),
-        ),
-    ]
+

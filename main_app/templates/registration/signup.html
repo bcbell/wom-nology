@@ -3,13 +3,12 @@
  
   <h2>Sign up</h2>
 
-    {% csrf_token %}
    
   <form method="post" action="{% url 'signup' %}">
-    {% csrf_token%}
-
+    {% csrf_token %}
     {{user_form}}
     {{profile_form}}
+
     <button type="submit">Sign up</button>
   </form>
 {% endblock %}

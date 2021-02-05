@@ -81,15 +81,15 @@ STATE_CHOICES = (
 	('WY', 'Wyoming')
 )
 
-def get_path_name(instance, filename):
-    path='accounts/avatar/'
-    name= instance.user.id + "_" + instance.user.email
-    path= path + name
-    return path
+# def get_path_name(instance, filename):
+#     path='accounts/avatar/'
+#     name= instance.user.id + "_" + instance.user.email
+#     path= path + name
+#     return path
 
 class Profile(models.Model):
-    user =models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar=models.ImageField(upload_to=get_path_name, blank=True, null=True)
+    user =models.OneToOneField(User, on_delete=models.CASCADE, related_name= 'profile')
+    avatar=models.ImageField(null=True, editable= True)
     # is_active = models.BooleanField(('active'), default=True)
     bio =models.TextField(max_length=500, blank=True)
     first_name=models.CharField(max_length=50, blank=True)
@@ -109,9 +109,9 @@ def update_user_profile(sender, instance, created, **kwargs):
         Profile.objects.create(user=instance)
     instance.profile.save()
 
-# @receiver(post_save, sender=User)
-# def save_user_profile(sender, instance, **kwargs):
-#     instance.profile.save()
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
 
 #User can have many discussion post 
 #User can have many replies to a discussion post
