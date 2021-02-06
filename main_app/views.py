@@ -43,9 +43,11 @@ def signup(request):
     })
 
 def discussionList(request):
-    post=Discussion.objects.get_queryset()
-    return render(request, 'discussions/discussion_list.html', {'post': post})
+    posts=Discussion.objects.get_queryset()
+    return render(request, 'discussions/discussion_list.html', {'posts': posts})
 
+def discussionDetail(request):
+    post
 @login_required
 def discussionCreate(request):
     form=DiscussionForm(request.POST or None)
