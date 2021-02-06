@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Discussion Board</h1>
+
+
+<h1>{{user.profile.first_name}}</h1>
+
+
+{% if discussion_list == ds %}
+
+<p>{{discussion.title}}</p>
+<ul>
+    {% for discussion in discussion_list %}
+        <li>
+            <p>{{discussion.title}}</p>
+            <a href="{%url 'discussion_list' discussion.id%}">{{discussion.title}}</a>
+            {% if discussion.posted_by == posted_id %}
+            (<a href='#'>Edit</a> | <a href='#'>Delete</a>)
+            {% endif%}
+        </li>
+    {%endfor%}
+</ul>
+{% else%}
+
+    </p>There are currently no discussions available</p>
+{% endif %}
+</p>
+
+<a href=#>Post a discussion</a>
+
+
+
+
+{% endblock %}

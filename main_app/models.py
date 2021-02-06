@@ -5,6 +5,29 @@ from django.dispatch import receiver
 from django.core.validators import MinLengthValidator
 
 # from django.conf import settings
+class Discussion(models.Model):
+    title= models.CharField(max_length= 500, validators=[MinLengthValidator(3, "Please create a title greater than 3 characters")])
+    post=models.TextField()
+    posted_by=models.ForeignKey(User, on_delete=models.CASCADE, related_name='discussions_owned')
+    replies= models.ManyToManyField(User, through='Reply', related_name='discussion_replies')
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+    
+    def get_absolute_url(self):
+        return reverse("discussions_detail", kwargs={"pk": self.id})
+  
+
+class Reply(models.Model):
+    post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
+    avatar= models.BinaryField(null=True, editable=True)
+    discussion= models.ForeignKey(Discussion, blank=True, on_delete=models.CASCADE)
+    posted_by=models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
 
 AREAS=(
         ('IT', 'Information Technology'),
@@ -38,7 +61,6 @@ STATE_CHOICES = (
 	('CA', 'California'),
 	('CO', 'Colorado'),
 	('CT', 'Connecticut'),
-	('DC', 'Washington D.C.'),
 	('DE', 'Delaware'),
 	('FL', 'Florida'),
 	('GA', 'Georgia'),
@@ -78,6 +100,7 @@ STATE_CHOICES = (
 	('VT', 'Vermont'),
 	('VA', 'Virginia'),
 	('WA', 'Washington'),
+    ('DC', 'Washington D.C.'),
 	('WI', 'Wisconsin'),
 	('WY', 'Wyoming')
 )
@@ -94,6 +117,8 @@ class Profile(models.Model):
     it_area=models.CharField(max_length=50, choices=AREAS, default=[0][0])
     date_joined=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
+    discussions=models.ManyToManyField(Discussion)
+    replies= models.ManyToManyField(Reply)
 
     def __str__(self):
         return str(self.user)
@@ -113,24 +138,3 @@ def save_user_profile(sender, instance, **kwargs):
 # Create your models here.
 
 #Model Discussion - Foreign Key(User) and ManyToManyField (Reply)
-
-class Discussion(models.Model):
-    title= models.CharField(max_length= 500, validators=[MinLengthValidator(3, "Please create a title greater than 3 characters")])
-    post=models.TextField()
-    posted_by=models.ForeignKey(User, on_delete=models.CASCADE, related_name='discussions_owned')
-    replies= models.ManyToManyField(User, through='Reply', related_name='discussion_replies')
-    created_at= models.DateTimeField(auto_now_add=True)
-    updated_at= models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.title
-
-#Model Reply- Foreign Keys (User and Discussion)
-
-class Reply(models.Model):
-    post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
-    avatar= models.BinaryField(null=True, editable=True)
-    discussion= models.ForeignKey(Discussion, on_delete=models.CASCADE)
-    posted_by=models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at= models.DateTimeField(auto_now_add=True)
-    updated_at= models.DateTimeField(auto_now=True)
