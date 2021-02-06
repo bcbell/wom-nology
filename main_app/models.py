@@ -92,6 +92,9 @@ class Discussion(models.Model):
     likes =models.ManyToManyField(User, related_name='discussion_post')
 
     def __str__(self):
+        return str(self.title)
+
+    def __str__(self):
         return self.title + ' | ' + str(self.posted_by)
 
     def total_likes(self):
@@ -116,6 +119,9 @@ class Reply(models.Model):
     likes=models.ManyToManyField(User, related_name='reply_post')
 
     def __str__(self):
+        return str(self.post)
+
+    def __str__(self):
         return self.post + ' | ' + str(self.posted_by)
 
 class Profile(models.Model):
@@ -130,8 +136,8 @@ class Profile(models.Model):
     it_area=models.CharField(max_length=50, choices=AREAS, default=[0][0])
     date_joined=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
-    discussions=models.ManyToManyField(Discussion)
-    replies= models.ManyToManyField(Reply)
+    discussions=models.ManyToManyField(Discussion, related_name='posts')
+    replies= models.ManyToManyField(Reply, related_name='replys')
 
     def __str__(self):
         return str(self.user)

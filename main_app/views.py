@@ -19,7 +19,8 @@ def about(request):
 
 def profile(request):
     profile=Profile.objects.all()
-    return render(request, 'account/profile.html', {'profile': profile})
+    post=Discussion.objects.filter(posted_by=request.user)
+    return render(request, 'account/profile.html', {'profile': profile, 'post': post})
 
 def signup(request):
     if request.method == 'POST':
@@ -40,7 +41,11 @@ def signup(request):
         'user_form': user_form,
         'profile_form':profile_form
     })
-    
+
+def discussionList(request):
+    post=Discussion.objects.get_queryset()
+    return render(request, 'discussions/discussion_list.html', {'post': post})
+
 @login_required
 def discussionCreate(request):
     form=DiscussionForm(request.POST or None)
@@ -52,14 +57,14 @@ def discussionCreate(request):
     context={'form': form}
     return render(request,'main_app/discussion_form.html', context)
 
-class DiscussionListView(ListView):
-    model=Discussion
-    def get(self, request):
-        ds = Discussion.objects.all()
-        # count=Discussion.count()
-        replies=[]
-        ctx ={'discussion_list': ds, 'replies': replies}
-        return render(request, 'discussions/discussion_list.html', ctx)
+# class DiscussionListView(ListView):
+#     model=Discussion
+#     def get(self, request):
+#         ds = Discussion.objects.all()
+#         # count=Discussion.count()
+#         replies=[]
+#         context ={'discussion_list': ds, 'replies': replies}
+#         return render(request, 'discussions/discussion_list.html', context)
 
 class DiscussionDetailView(DetailView):
     model=Discussion

@@ -22,7 +22,6 @@ class ReplyForm(ModelForm):
     reply= forms.CharField(required=True, max_length=500, min_length=3, strip=True) 
 
 class DiscussionForm(ModelForm):
-    # posted_by=User.objects.filter(user_id)
     class Meta:
         model= Discussion
         fields=['title', 'post']

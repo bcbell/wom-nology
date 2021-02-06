@@ -10,13 +10,13 @@ class PostedCreateView(CreateView):
         return super(PostedCreateView, self).form_valid(form)
 
 class PostedUpdatedView(UpdateView):
-    def get_queryset(self):
+    def get(self):
         print('updated called')
-        qs= super(PostedUpdatedView, self).get_queryset()
+        qs= super(PostedUpdatedView, self).get()
         return qs.filter(posted_by=self.request.user)
 
 class PostedDeleteView(DeleteView):
-    def get_queryset(self):
-        print('delete get_queryset called')
-        qs=super(PostedDeleteView, self).get_queryset()
+    def get(self):
+        print('delete  called')
+        qs=super(PostedDeleteView, self).get()
         return qs.filter(posted_by=self.request.user)

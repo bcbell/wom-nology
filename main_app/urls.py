@@ -11,7 +11,7 @@ urlpatterns= [
     path('accounts/profile/', views.profile, name='profile'),
     path('accounts/signup/', views.signup, name='signup'),
     path('accounts/avatar', views.stream_file, name='avatar'),
-    path('discussions/', views.DiscussionListView.as_view(), name='discussions'),
+    path('discussions/', views.discussionList, name='discussions'),
     path('discussions/<int:pk>/', views.DiscussionDetailView.as_view(), name='discussion_detail'),
     path('discussions/create', views.discussionCreate, name='discussions_create'),
 
