@@ -5,18 +5,18 @@
 
 <h1>{{user.profile.first_name}}</h1>
 
-
-{% if discussion %}
+<hr>
+{% comment %} {% if discussion %} {% endcomment %}
     
-    <h1>Edit <span class='teal-text'>{{ object.name }}</span></h1>
+    {% comment %} <h1>Edit <span class='teal-text'>{{ object.name }}</span></h1>
   {% else %}
     <h1>Start a discussion</h1>
-  {% endif %}
-  <form action="{% url 'discussions_create'%}" method='post'>
+  {% endif %} {% endcomment %}
+  <form action="{% url 'discussions'%}" method='post'>
     {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-    </table>
+ 
+    {{ form }}
+   
     <input type="submit" value='Submit!' class='btn'>
   </form>
 {% endblock %}

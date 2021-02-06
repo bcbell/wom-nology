@@ -27,7 +27,7 @@ $("#upload_form").submit(function() {
 </script> {% endcomment %}
 {% comment %} {% endblock %} {% endcomment %} 
 
-  {% if object %}
+  {% if discussionCreate %}
     <h1>Edit <span class='teal-text'>{{ user.discussion.id }}</span></h1>
   {% else %}
     <h1>Add a Post</h1>
@@ -35,7 +35,7 @@ $("#upload_form").submit(function() {
   <form action="{% url 'discussions_create' %}" method='post'>
     {% csrf_token %}
     <table>
-      {{ discussion_form }}
+      {{ form}}
     </table>
     <button type="submit"  class='btn'>Submit</button>
   </form>

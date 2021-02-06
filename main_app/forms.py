@@ -1,9 +1,8 @@
 from django.forms import ModelForm
-# from .models import Discussion
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, Discussion
+from .models import Profile, Discussion, Reply
 from .humanize import naturalsize
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth import login
@@ -18,13 +17,16 @@ class ProfileForm(forms.ModelForm):
         model= Profile
         fields=[ 'first_name','last_name', 'email',  'location', 'it_area','bio']
 
-class ReplyForm(forms.Form):
+class ReplyForm(ModelForm):
     reply= forms.CharField(required=True, max_length=500, min_length=3, strip=True) 
 
-class DiscussionForm(forms.Form):
+class DiscussionForm(ModelForm):
     class Meta:
         model= Discussion
-        fields=[ 'title','post', 'posted_by']
+        fields=['title', 'post','posted_by' ]
+
+
+        # fields=[ 'title','post', 'posted_by']
 
 # #     max_upload_limit= 2* 1024 *1024
 # #     max_upload_limit_text=naturalsize(max_upload_limit)

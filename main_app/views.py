@@ -41,6 +41,7 @@ def signup(request):
         'profile_form':profile_form
     })
 
+
 def discussionCreate(request):
     form=DiscussionForm()
     if request.method =='POST':
