@@ -40,15 +40,15 @@ def signup(request):
         'user_form': user_form,
         'profile_form':profile_form
     })
-
-
+    
+@login_required
 def discussionCreate(request):
-    form=DiscussionForm()
-    if request.method =='POST':
-        form=DiscussionForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('discussions')
+    form=DiscussionForm(request.POST or None)
+    if form.is_valid():
+        instance =form.save(commit=False)
+        instance.posted_by=request.user
+        instance.save()
+        return redirect('discussions')
     context={'form': form}
     return render(request,'main_app/discussion_form.html', context)
 
@@ -56,6 +56,7 @@ class DiscussionListView(ListView):
     model=Discussion
     def get(self, request):
         ds = Discussion.objects.all()
+        # count=Discussion.count()
         replies=[]
         ctx ={'discussion_list': ds, 'replies': replies}
         return render(request, 'discussions/discussion_list.html', ctx)
@@ -71,27 +72,7 @@ class DiscussionDetailView(DetailView):
         return render(request, self.template_name, context)
 
 
-    # # def form_valid(self, form):
-    # #     form.instance.user=self.request
-    # #     return super(DiscussionCreateView, self).form_valid(form)
-
-    # # success_url=reverse_lazy('discussions:all')
-    # def get(self, request, pk=None):
-    #     form= DiscussionForm()
-    #     return render(request, 'main_app/discussion_form.html', {'form': form})
-
-    # def post(self, request, pk=):
-    #     form=DiscussionForm(request.POST)
-
-    #     if not form.is_valid():
-    #         ctx= {'form': form}
-    #         return render(request, self.template_name, ctx)
-
-    #     discussion=form.save(commit=False)
-    #     discussion.posted_by=self.user
-    #     discussion.save()
-
-    #     return redirect('discussions')
+   
 
 
 # @login_required

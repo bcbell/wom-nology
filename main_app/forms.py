@@ -7,6 +7,7 @@ from .humanize import naturalsize
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.contrib.auth import login
 
+
 class UserForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
@@ -21,9 +22,10 @@ class ReplyForm(ModelForm):
     reply= forms.CharField(required=True, max_length=500, min_length=3, strip=True) 
 
 class DiscussionForm(ModelForm):
+    # posted_by=User.objects.filter(user_id)
     class Meta:
         model= Discussion
-        fields=['title', 'post','posted_by' ]
+        fields=['title', 'post']
 
 
         # fields=[ 'title','post', 'posted_by']
