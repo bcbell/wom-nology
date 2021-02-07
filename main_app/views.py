@@ -17,10 +17,12 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 def profile(request):
     profile=Profile.objects.all()
     return render(request, 'account/profile.html', {'profile': profile})
 
+@login_required
 def discussionUser(request):
     posts=Discussion.objects.filter(posted_by=request.user)
     return render(request, 'account/user_discussions.html', {'posts': posts})
@@ -46,11 +48,15 @@ def signup(request):
     })
 
 def discussionList(request):
-    posts=Discussion.objects.get_queryset()
+    posts=Discussion.objects.all()
+    # posts=Discussion.objects.filter(id='discussion_id')
     return render(request, 'discussions/discussion_list.html', {'posts': posts})
 
-def discussionDetail(request):
-    post
+def discussionDetail(request, discussion_id):
+    post=Discussion.object.get(id='discussion_id')
+    reply_form=ReplyForm()
+    return render(request, 'discussions/discussion_detail.html', {'post': post, 'reply_form': reply_form})
+
 @login_required
 def discussionCreate(request):
     form=DiscussionForm(request.POST or None)
@@ -62,27 +68,10 @@ def discussionCreate(request):
     context={'form': form}
     return render(request,'main_app/discussion_form.html', context)
 
-# class DiscussionListView(ListView):
-#     model=Discussion
-#     def get(self, request):
-#         ds = Discussion.objects.all()
-#         # count=Discussion.count()
-#         replies=[]
-#         context ={'discussion_list': ds, 'replies': replies}
-#         return render(request, 'discussions/discussion_list.html', context)
-
-class DiscussionDetailView(DetailView):
+class DiscussionDetail(DetailView):
     model=Discussion
-    template_name='discussions/discussion_detail.html'
-    def get(self, request, pk):
-        x=Discussion.objects.get(id=pk)
-        replies=Reply.objects.filter(discussion=x).order_by('-updated_at')
-        reply_form=ReplyForm()
-        context={'discussion': x, 'reply': replies, 'reply_form': reply_form}
-        return render(request, self.template_name, context)
+    fields='__all__'
 
-
-   
 
 
 # @login_required

@@ -101,7 +101,7 @@ class Discussion(models.Model):
         return self.likes.count()
 
     def get_absolute_url(self):
-        return reverse("discussions_detail", kwargs={"pk": self.id})
+        return reverse('discussion_detail', kwargs={'pk': self.id})
     
     # def create_posted_by(sender, **kwargs):
     #     if kwargs['created']:

@@ -7,7 +7,7 @@
 <ul>
 {% for p in posts %}
     <ol>
-        <a class= "index" href="{% url 'discussion_detail' p.id%}"><h3>{{p}}</h3></a>
+        <a class= "index" href="{% url 'discussion_detail' p.id %}"><h3>{{p}}</h3></a>
     {% if p.posted_by == user %} 
     (<a class="indexChange" href='#'>Edit</a> | <a class='indexChange' href='#'>Delete</a>)
     {% endif%} 
