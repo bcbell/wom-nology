@@ -27,8 +27,8 @@ $("#upload_form").submit(function() {
 </script> {% endcomment %}
 {% comment %} {% endblock %} {% endcomment %} 
 
-  {% if discussionCreate %}
-    <h1>Edit <span class='teal-text'>{{ user.discussion.id }}</span></h1>
+  {% if object %}
+    <h1>Edit Post <span class='teal-text'>{{ user.discussion.id }}</span></h1>
   {% else %}
     <h1>Add a Post</h1>
   {% endif %}

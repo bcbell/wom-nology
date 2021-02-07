@@ -6,8 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
 from .models import Profile, Discussion, Reply
 from django.views.generic import ListView, DetailView
-from .posted import PostedCreateView, PostedUpdatedView, PostedDeleteView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -72,7 +71,13 @@ class DiscussionDetail(DetailView):
     model=Discussion
     fields='__all__'
 
+class DiscussionUpdate(UpdateView):
+    model=Discussion
+    fields=['title', 'post']
 
+class DiscussionDelete(DeleteView):
+    model=Discussion
+    success_url='/discussions/'
 
 # @login_required
 # @transaction
