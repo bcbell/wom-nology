@@ -17,7 +17,10 @@ urlpatterns= [
     path('discussions/create', views.discussionCreate, name='discussions_create'),
     path('discussions/<int:pk>/update/', views.DiscussionUpdate.as_view(), name='discussion_update'),
     path('discussions/<int:pk>/delete/', views.DiscussionDelete.as_view(), name='discussion_delete'),
-    path('discussions/<int:pk>/reply/', views.ReplyCreate.as_view(), name='discussion_reply_create'),
-    path('discussions/<int:pk>/delete', views.ReplyDelete.as_view(), name='discussion_reply_delete')
+    path('replies/create', views.replyCreate, name='reply_create'),
+    path('discussions/<int:pk>/delete', views.ReplyDelete.as_view(), name='discussion_reply_delete'),
+    path('like/<int:pk>', views.Like, name='like'),
+    path('discussions/<str:discussions>/', views.categoryView, name='category'),
+    path('discussions/category', views.categoryListView, name='category_list'),
 
 ]

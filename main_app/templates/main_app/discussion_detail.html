@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
+{% load humanize%}
 {% block content %}
+
+<button type='submit'><a href={% url 'reply_create'  %}>Post Reply</button></a>
 
 <h1>Discussion {{ds}}</h1>
 
@@ -8,12 +11,59 @@
 <h1>{{discussion.post}}</h1>
 <h1>{{discussion.posted_by}}</h1>
 
+{% comment %} <form action='{% url 'like_post' discussion.id %}' method="POST">
+{% csrf_token%}
+{%if user.is_authenticated %}
+{%if liked%}
+<button type= 'submit' value='{{discussion_id}}' name='discussion_id'>Unlike</button>
+{%else%}
+<button type= 'submit' value='{{discussion_id}}' name='discussion_id'>Like</button>
+{%endif%}
+{%else%}
+<small><a href="{%url 'login' %}">Login</a> to Like</small>
+{% endif %}
+
+-{{total_likes}} Likes 
+
 {% if discussion.posted_by == user %} 
 <button><a href="{% url 'discussion_update' discussion.id %}">Edit</button></a>
 
 <button><a href="{% url 'discussion_delete' discussion.id%}">Delete</button></a>
-{% endif %}
+{% endif %} {% endcomment %}
 <hr>
 
+<h2>Comments ...</h2>
+{% comment %} Reply Section {% endcomment %}
+{% comment %} Reply Form {% endcomment %}
+{% if not discussion.replies.all %}
+ <h3>Be the first to reply...<a href={% url 'reply_create' %}>Reply</a></h3>
+{% else%}
 
+{% for reply in discussion.replies.all %}
+
+<h5>{{reply.post}}</h5>
+<strong>{{reply.date_added}}</strong>
+
+{% endfor%}
+{%endif%}
+
+<form method='post' action='{%url 'reply_create'%}'>
+
+{%csrf_token %}
+
+{% if reply.posted_by == user %} 
+<button type='submit'>Submit</button>
+<button><a href=''>Cancel</button></a> 
+{%endif%}
+
+{% for reply in discussion.replies.all %}
+<p>{{reply}}
+
+({{reply.updated_at | naturaltime}})
+
+{% if reply.posted_by == user%}
+<button><a href='{% url 'discussion_reply_delete' reply%}'>Delete</a></button>
+
+{%endif%}
+{% endfor%}
 {% endblock %}

@@ -81,12 +81,28 @@ STATE_CHOICES = (
 	('WI', 'Wisconsin'),
 	('WY', 'Wyoming')
 )
+CATEGORY_CHOICES=(
+    ('GA', 'ADVICE & RESOURCES-GENERAL'),
+    ('CA', 'ADVICE & RESOURCES-CAREER'),
+    ('WC', 'BIPOC IN TECH'),
+    ('CC', 'CAREER CHANGER'),
+    ('CD', 'CAREER DEVELOPMENT'),
+    ('EN', 'ENTREPRENEURSHIP'),
+    ('WP', 'IN THE WORKPLACE'),
+    ('QA', 'Q & A'),
+    ('MO', 'MOMMY IN TECH'),
+    ('NW', 'NETWORKING'),
+    ('NT', 'NEW TO TECH'),
+    ('SH', 'TECH SISTERHOOD'),
+    ('TC', 'TECH TALK'),
+)
 
 class Discussion(models.Model):
     title= models.CharField(max_length= 500, validators=[MinLengthValidator(3, "Please create a title greater than 3 characters")])
     post=models.TextField()
+    category= models.CharField(max_length=50,choices=CATEGORY_CHOICES, default=[0][0])
     posted_by=models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
-    replies= models.ManyToManyField(User, through='Reply', related_name='discussion_replies')
+    replies= models.ManyToManyField(User, through='Reply', related_name='replies')
     created_at= models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now=True)
     likes =models.ManyToManyField(User, related_name='discussion_post')
@@ -103,16 +119,12 @@ class Discussion(models.Model):
     def get_absolute_url(self):
         return reverse('discussion_detail', kwargs={'pk': self.id})
     
-    # def create_posted_by(sender, **kwargs):
-    #     if kwargs['created']:
-    #         discussion=Discussion.objects.create(user=kwargs['instance'].user)
 
-    # post_save.connect(create_posted_by)
 
 class Reply(models.Model):
     post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
     avatar= models.BinaryField(null=True, editable=True)
-    discussion= models.ForeignKey(Discussion, blank=True, on_delete=models.CASCADE)
+    discussion= models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.CASCADE)
     posted_by=models.ForeignKey(User, on_delete=models.CASCADE)
     created_at= models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now=True)
@@ -121,8 +133,11 @@ class Reply(models.Model):
     def __str__(self):
         return str(self.post)
 
-    def __str__(self):
-        return self.post + ' | ' + str(self.posted_by)
+    def get_absolute_url(self):
+        return reverse('reply_create', kwargs={'pk': self.id})
+    
+    def total_likes(self):
+        return self.likes.count()
 
 class Profile(models.Model):
     user =models.OneToOneField(User, on_delete=models.CASCADE, related_name= 'profile')
@@ -137,7 +152,9 @@ class Profile(models.Model):
     date_joined=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     discussions=models.ManyToManyField(Discussion, related_name='posts')
-    replies= models.ManyToManyField(Reply, related_name='replys')
+    replies= models.ManyToManyField(Reply, related_name='replies')
+
+
 
     def __str__(self):
         return str(self.user)

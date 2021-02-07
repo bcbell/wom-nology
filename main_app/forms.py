@@ -19,7 +19,10 @@ class ProfileForm(forms.ModelForm):
         fields=[ 'first_name','last_name', 'email',  'location', 'it_area','bio']
 
 class ReplyForm(ModelForm):
-    reply= forms.CharField(required=True, max_length=500, min_length=3, strip=True) 
+    class Meta:
+        model=Reply
+        fields=['post']
+    # reply= forms.CharField(required=True, max_length=500, min_length=3, strip=True) 
 
 class DiscussionForm(ModelForm):
     class Meta:
