@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>
+
+<h4>Are you sure you want to delete you reply? </h4>
+
+<p>{{reply.post}}</p>
+
+<form action='' method='post'>
+    {% csrf_token%}
+    <button type="submit">Yes, delete.</button>
+    <button><a href='{% url 'discussion_detail' discussion.id %}'>Cancel</button></a>
+{% endblock%}

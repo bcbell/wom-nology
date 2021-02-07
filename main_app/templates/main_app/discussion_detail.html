@@ -8,9 +8,12 @@
 <h1>{{discussion.post}}</h1>
 <h1>{{discussion.posted_by}}</h1>
 
+{% if discussion.posted_by == user %} 
 <button><a href="{% url 'discussion_update' discussion.id %}">Edit</button></a>
 
 <button><a href="{% url 'discussion_delete' discussion.id%}">Delete</button></a>
+{% endif %}
 <hr>
+
 
 {% endblock %}

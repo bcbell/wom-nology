@@ -79,6 +79,14 @@ class DiscussionDelete(DeleteView):
     model=Discussion
     success_url='/discussions/'
 
+class ReplyCreate(CreateView):
+    model=Reply
+    fields=['']
+
+class ReplyDelete(DeleteView):
+    model=Reply
+    success_url='/discussions/'
+
 # @login_required
 # @transaction
 # def update_profile(request, user_id):

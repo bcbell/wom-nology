@@ -15,7 +15,9 @@ urlpatterns= [
     path('discussions/', views.discussionList, name='discussions'),
     path('discussions/<int:pk>/', views.DiscussionDetail.as_view(), name='discussion_detail'),
     path('discussions/create', views.discussionCreate, name='discussions_create'),
-    path('discussion/<int:pk>/update/', views.DiscussionUpdate.as_view(), name='discussion_update'),
-    path('discussion/<int:pk>/delete/', views.DiscussionDelete.as_view(), name='discussion_delete')
+    path('discussions/<int:pk>/update/', views.DiscussionUpdate.as_view(), name='discussion_update'),
+    path('discussions/<int:pk>/delete/', views.DiscussionDelete.as_view(), name='discussion_delete'),
+    path('discussions/<int:pk>/reply/', views.ReplyCreate.as_view(), name='discussion_reply_create'),
+    path('discussions/<int:pk>/delete', views.ReplyDelete.as_view(), name='discussion_reply_delete')
 
 ]
