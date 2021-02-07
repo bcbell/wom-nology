@@ -2,3 +2,13 @@
 {% block content %}
 
 <h1>Delete Discussion</h1>
+<h4> Are you sure you want to delete {{object.title}}? </h4>
+
+<form action='' method='post'>
+{% csrf_token %}
+    <button type='submit'>Yes, Delete</button> 
+    <a href= "{% url 'discussion_detail' discussion.id %}"><button>Cancel</a></button>
+</form>
+    
+
+{% endblock %}

@@ -1,31 +1,5 @@
 {% extends "base.html" %}
-{% comment %} {% load crispy_forms_tags %} {% endcomment %}
 {% block content %}
-{% comment %} 
-{% if object%}
-<h
-<p>
-  <form action="{% url 'discussions_create' %}" method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-    {{discussion_form}}
-    <input type="submit" value="Submit">
-    {% comment %} <input type="submit" value="Cancel" onclick="window.location.href='{% url 'discussion_list' %}';return false;"> {% endcomment %}
-  </form>
-</p>
-{% comment %} <script>
-$("#upload_form").submit(function() {
-  console.log('Checking file size');
-  if (window.File && window.FileReader && window.FileList && window.Blob) {
-      var file = $('#id_{{ form.upload_field_name }}')[0].files[0];
-      if (file && file.size > {{ form.max_upload_limit }} ) {
-          alert("File " + file.name + " of type " + file.type + " must be < {{ form.max_upload_limit_text }}");
-      return false;
-    }
-  }
-});
-</script> {% endcomment %}
-{% comment %} {% endblock %} {% endcomment %} 
 
   {% if object %}
     <h1>Edit Post <span class='teal-text'>{{ user.discussion.id }}</span></h1>
