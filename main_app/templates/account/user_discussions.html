@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1 class="index">WOM-nology Discussion Board</h1>
+<h1>{{user.profile.first_name}}'s Discussions </h1>
+
 <p>
 {% if posts %}
+{% comment %} {% if p.posted_by == user %}  {% endcomment %}
 <ul>
 {% for p in posts %}
     <ol>

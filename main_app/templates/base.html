@@ -25,11 +25,11 @@
                 <ul class="navbar-nav mr-auto">
                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="{% url 'home' %}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Home
+                        {{user.profile.first_name}} {{user.profile.last_name}}
                         </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'profile'%}">Account Profile</a>
-                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="{% url 'user_discussions' %}">View Your Discussions</a>
                     <div class="dropdown-divider"></div>
                         
                         {% if user.is_authenticated %}
@@ -62,11 +62,13 @@
         </nav>
     </header>
     <main>
-        {% block content %}
-        {% endblock %}
+       {% block content %}
+        {% endblock %} 
     </main>
     <footer class= "page-footer">
-        <div class="right">All Rights Reserved, &copy; 2021 WOM-nology by Brittany Coleman &nbsp;</div>
+        <div class="right">All Rights Reserved, &copy; 2021 WOM-nology by Brittany Coleman &nbsp;</div> 
+    </footer>
+       
 </body>
 </html>
 

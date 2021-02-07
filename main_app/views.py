@@ -19,8 +19,11 @@ def about(request):
 
 def profile(request):
     profile=Profile.objects.all()
-    post=Discussion.objects.filter(posted_by=request.user)
-    return render(request, 'account/profile.html', {'profile': profile, 'post': post})
+    return render(request, 'account/profile.html', {'profile': profile})
+
+def discussionUser(request):
+    posts=Discussion.objects.filter(posted_by=request.user)
+    return render(request, 'account/user_discussions.html', {'posts': posts})
 
 def signup(request):
     if request.method == 'POST':
