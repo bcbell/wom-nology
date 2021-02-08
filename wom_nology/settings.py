@@ -31,7 +31,7 @@ def some_function(request):
 SECRET_KEY = ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 
 ALLOWED_HOSTS = []
 
@@ -133,3 +133,6 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL='/accounts/profile'
 
 LOGOUT_REDIRECT_URL='/'
+
+import django_on_heroku
+django_on_heroku.settings(locals())

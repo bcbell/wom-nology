@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load humanize%}
 {% block content %}
+
+
 <div class='discussionDetails'>
 <h1>Discussion on {{discussion.title}}</h1>  <h4>Created by:{{user.profile.first_name}}</h4>
 
@@ -35,17 +37,18 @@
 
 {% comment %} Reply Section {% endcomment %}
 {% comment %} Reply Form {% endcomment %}
- {% comment %} {% if replies %} {% endcomment %}
- {% comment %} <h3>Be the first to reply...<a href={% url 'add_reply' %}>Reply</a></h3> {% endcomment %}
-{% comment %} {% else%}  {% endcomment %}
+ {% if reply %}
+ <h1>{{reply.post}}</h1>
+ <h5>Be the first to reply...<a href={% url 'add_reply' discussion.id %}>Reply</a></h5>
+ {% else%}  
 
-{% comment %} {% for reply in discussion.reply %}
+ {% for reply in discussion.replies %}
 
 <h5>{{reply.post}}</h5>
 <strong>{{reply.date_added}}</strong>
 
 {% endfor%}
-{%endif%}  {% endcomment %}
+{%endif%}  
 
 <form method='POST' action="{% url 'add_reply' discussion.id %}"> 
 
@@ -55,17 +58,17 @@
 <button type='submit'>Submit</button>
 <button><a href="{% url 'discussion_detail' discussion.id %}" >Cancel</button></a> 
 </form>
-{% comment %} {% for reply in discussion.replies.all %}
-<p>{{reply}} {% endcomment %}
+ {% for reply in discussion.replies.all %}
+<p>{{reply}} 
 
-{% comment %} ({{reply.updated_at | naturaltime}})
+ ({{reply.updated_at | naturaltime}})
 
 {% if reply.posted_by == user%}
-<button><a href='{% url 'discussion_reply_delete' reply%}'>Delete</a></button> {% endcomment %}
-{% comment %} {% for reply in replies%} {% endcomment %}
+<button><a href='{% url 'discussion_reply_delete' reply%}'>Delete</a></button> 
+ {% for reply in replies%} 
 
 
-{% comment %} {%endfor%} {% endcomment %}
-{% comment %} {%endif%} {% endcomment %}
-{% comment %} {% endfor%} {% endcomment %}
+{%endfor%}
+{%endif%}
+ {% endfor%} 
 {% endblock %}

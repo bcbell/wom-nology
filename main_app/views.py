@@ -70,9 +70,6 @@ def discussionCreate(request):
     return render(request,'main_app/discussion_form.html', context)
 
 def add_reply(request, discussion_id):
-    # form=ReplyForm()
-    # pk =discussion_id
-    # if request.method =='POST':
         form=ReplyForm(request.POST)
         if form.is_valid():
             instance =form.save(commit=False)
@@ -80,29 +77,8 @@ def add_reply(request, discussion_id):
             instance.author_id=request.user.id
             instance.save()
         return redirect('discussion_detail',discussion_id=discussion_id)
-    # return render(request, 'main_app/reply_form.html',{'discussion_id' : discussion_id, 'form': form})
-
-# def assoc_reply(request, discussion_id, reply_id):
-#   # Note that you can pass a toy's id instead of the whole object
-#   Discussion.objects.get(id=discussion_id).replies.add(reply_id)
-#   return redirect('discussion_detail', discussion_id=discussion_id)      
-
-def replyCreate(request):        
-    form=ReplyForm()
-    discussion=Discussion.objects.all()
-    if request.method =='POST':
-        form= ReplyForm(request.POST)
-        discussion.id=Discussion.id
-        if form.is_valid():
-            instance =form.save(commit=False)
-            instance.author_id=request.user 
-            instance.save()
-            return redirect('discussions')
-    context={'form': form, 'discussion.id': discussion.id}
-    return render(request, 'main_app/reply_form.html', context)
-
-
-   
+  
+  
 #    def add_avatar(request):
 #     form = ReplyForm()
 #     if request.method == 'POST':
@@ -161,15 +137,6 @@ class DiscussionUpdate(UpdateView):
 class DiscussionDelete(DeleteView):
     model=Discussion
     success_url='/discussions/'
-
-# class ReplyCreate(CreateView):
-#     model=Reply
-#     fields=['discussion','post']
-
-#     def form_valid(self, form):
-#         form.instance.posted_by=self.request.user
-#         form.instance.reply=self.request
-#         return super().form_valid(form)
 
 class ReplyDelete(DeleteView):
     model=Reply
