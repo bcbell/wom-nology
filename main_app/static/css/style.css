@@ -4,7 +4,6 @@
 body{
     background-color: white;
     font-family: 'Cinzel', serif;
-    font-variant: small-caps;
     background-image: url(https://i.imgur.com/bFlOfhA.png);
     background-position: unset;
     background-size: cover;
@@ -12,6 +11,10 @@ body{
 }
 
 /* Discussion List Page */
+div.discussionList{
+    text-align: center;
+   
+}
 h1.index{
     font-family: 'Cormorant Garamond', serif;
     text-align: center;
@@ -19,7 +22,29 @@ h1.index{
     background-color: rgba(192, 190, 190, 0.63);
     outline: #e241a4 2px solid;
     color: white;
+    text-shadow: black 2px 2px;
 }
+/* Create Discussion Post Page */
+div.createDiscussion{
+   background-color: rgba(255, 0, 255, 0.568);
+}
+h1.createDiscussionHeader{
+    text-align: center;
+    color: white;
+    text-shadow: black 2px 2px;
+}
+
+/* Discussion Details Page */
+div.discussionDetails{
+    background-color: rgba(255, 0, 255, 0.568);
+    color: white;
+}
+span.discussionDetails{
+    font-size: 25px;
+    font-family: 'Cormorant Garamond', serif;
+    
+}
+
 footer{
     padding-top: 0;
     text-align: center;
@@ -27,3 +52,4 @@ footer{
     position: fixed;
 
 }
+

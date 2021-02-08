@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-
+<div class='createDiscussion'>
   {% if object %}
-    <h1>Edit Post <span class='teal-text'>{{ user.discussion.id }}</span></h1>
+
+    <h1 class='createDiscussionHeader'>Edit Post <span class='teal-text'>{{ user.discussion.id }}</span></h1>
   {% else %}
-    <h1>Add a Post</h1>
+    <h1 class='createDiscussionHeader'>Add a Post</h1>
   {% endif %}
   <form action="{% url 'discussions_create' %}" method='post'>
     {% csrf_token %}
@@ -16,4 +17,5 @@
     <a href= "{% url 'discussions' %}"><button>Cancel</a></button>
     
   </form>
+  </div>
 {% endblock %}

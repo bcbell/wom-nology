@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MinLengthValidator
+from django.utils.text import slugify
+import time
 
 # from django.conf import settings
 
@@ -97,15 +99,36 @@ CATEGORY_CHOICES=(
     ('TC', 'TECH TALK'),
 )
 
+class Reply(models.Model):
+    post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
+    avatar= models.BinaryField(null=True, editable=True)
+    author=models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_author')
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
+    likes=models.ManyToManyField(User, related_name='reply_post')
+    
+
+    def __str__(self):
+        return self.post + ' | ' + str(self.posted_by)
+
+    def __str__(self):
+        return str(self.post)
+
+
+    def total_likes(self):
+        return self.likes.count()
+
+
 class Discussion(models.Model):
     title= models.CharField(max_length= 500, validators=[MinLengthValidator(3, "Please create a title greater than 3 characters")])
     post=models.TextField()
     category= models.CharField(max_length=50,choices=CATEGORY_CHOICES, default=[0][0])
     posted_by=models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
-    replies= models.ManyToManyField(User, through='Reply', related_name='replies')
+    slug = models.SlugField
     created_at= models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now=True)
     likes =models.ManyToManyField(User, related_name='discussion_post')
+    replies= models.ManyToManyField(Reply, related_name='reply')
 
     def __str__(self):
         return str(self.title)
@@ -116,29 +139,7 @@ class Discussion(models.Model):
     def total_likes(self):
         return self.likes.count()
 
-    def get_absolute_url(self):
-        return reverse('discussion_detail', kwargs={'pk': self.id})
     
-
-
-class Reply(models.Model):
-    post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
-    avatar= models.BinaryField(null=True, editable=True)
-    discussion= models.ForeignKey(Discussion, blank=True, null=True, on_delete=models.CASCADE)
-    posted_by=models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at= models.DateTimeField(auto_now_add=True)
-    updated_at= models.DateTimeField(auto_now=True)
-    likes=models.ManyToManyField(User, related_name='reply_post')
-
-    def __str__(self):
-        return str(self.post)
-
-    def get_absolute_url(self):
-        return reverse('reply_create', kwargs={'pk': self.id})
-    
-    def total_likes(self):
-        return self.likes.count()
-
 class Profile(models.Model):
     user =models.OneToOneField(User, on_delete=models.CASCADE, related_name= 'profile')
     avatar=models.ImageField(null=True, editable= True)
@@ -153,8 +154,6 @@ class Profile(models.Model):
     updated_at=models.DateTimeField(auto_now=True)
     discussions=models.ManyToManyField(Discussion, related_name='posts')
     replies= models.ManyToManyField(Reply, related_name='replies')
-
-
 
     def __str__(self):
         return str(self.user)

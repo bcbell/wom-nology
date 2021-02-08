@@ -6,20 +6,31 @@ from . import views
 
 
 urlpatterns= [
+#Home and About Pages
     path('', views.home, name='home'),
     path('about/', views.about, name='about'),
+
+#Account Pages
     path('accounts/profile/', views.profile, name='profile'),
     path('accounts/discussions/', views.discussionUser, name='user_discussions'),
     path('accounts/signup/', views.signup, name='signup'),
     path('accounts/avatar', views.stream_file, name='avatar'),
+
+#Discussion Pages
     path('discussions/', views.discussionList, name='discussions'),
-    path('discussions/<int:pk>/', views.DiscussionDetail.as_view(), name='discussion_detail'),
+    path('discussions/<int:discussion_id>/', views.discussionDetail, name='discussion_detail'),
     path('discussions/create', views.discussionCreate, name='discussions_create'),
     path('discussions/<int:pk>/update/', views.DiscussionUpdate.as_view(), name='discussion_update'),
     path('discussions/<int:pk>/delete/', views.DiscussionDelete.as_view(), name='discussion_delete'),
-    path('replies/create', views.replyCreate, name='reply_create'),
-    path('discussions/<int:pk>/delete', views.ReplyDelete.as_view(), name='discussion_reply_delete'),
-    path('like/<int:pk>', views.Like, name='like'),
+
+# Reply
+    path('discussions/<int:discussion_id>/add_reply', views.add_reply, name='add_reply'),
+    path('discussions/<int:pk>/reply/delete/', views.ReplyDelete.as_view(), name='discussion_reply_delete'),
+
+#Likes
+    # path('like/<int:pk>', views.Like, name='like'),
+
+#Category
     path('discussions/<str:discussions>/', views.categoryView, name='category'),
     path('discussions/category', views.categoryListView, name='category_list'),
 

@@ -22,12 +22,12 @@ class ReplyForm(ModelForm):
     class Meta:
         model=Reply
         fields=['post']
-    # reply= forms.CharField(required=True, max_length=500, min_length=3, strip=True) 
+
 
 class DiscussionForm(ModelForm):
     class Meta:
         model= Discussion
-        fields=['title', 'post']
+        fields=['title','category', 'post']
 
 
         # fields=[ 'title','post', 'posted_by']

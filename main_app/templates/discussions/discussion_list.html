@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class= 'discussionList'>
 
 <h1 class="index">WOM-nology Discussion Board</h1>
 <p>
@@ -16,12 +17,12 @@
 </ul>
 {%else%}
 
-    <p>There are currently no discussions available</p>
+<h2>There are currently no discussions available</h2>
  {% endif %}
 </p> 
 
-<a class='indexNew' href={%url 'discussions_create'%}>Post a discussion</a> 
-</p>
+<h4><a class='indexNew' href={%url 'discussions_create'%}>Post a discussion</a> 
+</p></h4>
 
-
+</div>
 {%endblock%}
