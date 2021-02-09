@@ -4,10 +4,9 @@
 
 
 <div class='discussionDetails'>
-<h1>Discussion on {{discussion.title}}</h1>  <h4>Created by:{{user.profile.first_name}}</h4>
-
-
-<span class='discussionDetails'>Post: {{discussion.post}}</span>
+    <h1>Discussion on {{discussion.title}}</h1>  
+    <h4>Created by: {{discussion.posted_by}}</h4>
+    <span class='discussionDetails'>Post: {{discussion.post}}</span>
 <br>
 
 
@@ -27,7 +26,6 @@
 
 {% if discussion.posted_by == user %} 
 <button><a href="{% url 'discussion_update' discussion.id %}">Edit</button></a>
-
 <button><a href="{% url 'discussion_delete' discussion.id%}">Delete</button></a>
 {% endif %} 
 <hr>
@@ -35,40 +33,43 @@
 
 <h2>Comments ...</h2>
 
+
+
 {% comment %} Reply Section {% endcomment %}
 {% comment %} Reply Form {% endcomment %}
  {% if reply %}
- <h1>{{reply.post}}</h1>
- <h5>Be the first to reply...<a href={% url 'add_reply' discussion.id %}>Reply</a></h5>
- {% else%}  
 
- {% for reply in discussion.replies %}
+ {% for reply in reply %}
 
-<h5>{{reply.post}}</h5>
-<strong>{{reply.date_added}}</strong>
+<div class='commentSection'>
+<p>{{reply.posted_by}}| {{reply}} | ({{reply.updated_at | naturaltime}})
+    {% if reply.posted_by == user || admin %}
+    <button>
+        <a href='{% url 'discussion_reply_delete' reply%}'>Delete</a>
+    </button> 
+    <hr>
+</p>
+     
+<br>
 
-{% endfor%}
-{%endif%}  
-
-<form method='POST' action="{% url 'add_reply' discussion.id %}"> 
-
-{%csrf_token %}
-{{reply_form.as_p}}
-
-<button type='submit'>Submit</button>
-<button><a href="{% url 'discussion_detail' discussion.id %}" >Cancel</button></a> 
-</form>
- {% for reply in discussion.replies.all %}
-<p>{{reply}} 
-
- ({{reply.updated_at | naturaltime}})
-
-{% if reply.posted_by == user%}
-<button><a href='{% url 'discussion_reply_delete' reply%}'>Delete</a></button> 
- {% for reply in replies%} 
-
-
-{%endfor%}
 {%endif%}
- {% endfor%} 
+{% endfor%}
+{%else%}
+
+<h5>Be the first to reply...<a href={% url 'add_reply' discussion.id %}>Reply</a></h5>
+
+{% endif%}
+
+</br>
+{% comment %} Comment Form {% endcomment %}
+<form method='POST' action="{% url 'add_reply' discussion.id %}"> 
+    {%csrf_token %}
+    {{reply_form.as_p}}
+    <button type='submit'>Submit</button>
+    <button><a href="{% url 'discussion_detail' discussion.id %}" >Cancel</button></a> 
+</form>
+
+
+
+
 {% endblock %}

@@ -5,9 +5,11 @@
 
    
   <form method="post" action="{% url 'signup' %}">
+  <table>
     {% csrf_token %}
     {{user_form}}
     {{profile_form}}
+  </table>
 
     <button type="submit">Sign up</button>
   </form>

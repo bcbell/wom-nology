@@ -69,6 +69,7 @@ def discussionCreate(request):
     context={'form': form}
     return render(request,'main_app/discussion_form.html', context)
 
+@login_required
 def add_reply(request, discussion_id):
         form=ReplyForm(request.POST)
         if form.is_valid():

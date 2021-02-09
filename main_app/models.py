@@ -107,6 +107,7 @@ class Reply(models.Model):
     updated_at= models.DateTimeField(auto_now=True)
     likes=models.ManyToManyField(User, related_name='reply_post')
     
+    
 
     def __str__(self):
         return self.post + ' | ' + str(self.posted_by)
@@ -114,9 +115,12 @@ class Reply(models.Model):
     def __str__(self):
         return str(self.post)
 
-
     def total_likes(self):
         return self.likes.count()
+
+    class Meta:
+        ordering=['-created_at']
+
 
 
 class Discussion(models.Model):
@@ -129,6 +133,7 @@ class Discussion(models.Model):
     updated_at= models.DateTimeField(auto_now=True)
     likes =models.ManyToManyField(User, related_name='discussion_post')
     replies= models.ManyToManyField(Reply, related_name='reply')
+    
 
     def __str__(self):
         return str(self.title)
@@ -139,7 +144,9 @@ class Discussion(models.Model):
     def total_likes(self):
         return self.likes.count()
 
-    
+    class Meta:
+        ordering=['-created_at']
+
 class Profile(models.Model):
     user =models.OneToOneField(User, on_delete=models.CASCADE, related_name= 'profile')
     avatar=models.ImageField(null=True, editable= True)
