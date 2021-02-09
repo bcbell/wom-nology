@@ -11,6 +11,7 @@ from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, get_object_or_404
 import uuid
 import boto3
+from django.db.models import Q
 
 S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com/'
 BUCKET = 'wom-nology'
@@ -86,6 +87,7 @@ def add_reply(request, discussion_id):
 
   
 def add_photo(request):
+    avatar=Photo.objects.all()
     photo_file = request.FILES.get('photo-file', None)
     if photo_file:
         s3 = boto3.client('s3')
@@ -97,10 +99,27 @@ def add_photo(request):
             photo.save()
         except:
             print('An error occurred uploading file to S3')
-    return redirect('profile', avatar)
+    return redirect('profile')
+
+def search(request):
+    comments=Discussion.objects.all().order_by('-created_at')
+    search_discussions=request.GET.get('search')
+    if search_discussions:
+        comments=Discussion.objects.filter(Q(title__icontains=search_discussions) & Q(post__icontains=search_discussions))
+        return render(request, 'main_app/search_list.html', {'comments': comments})
+    else:
+        return render(request, 'main_app/search_list.html', {'comments': comments})
 
 
-#   if form.is_valid():
+# def search(request):
+#     results =  request.GET.get('q')
+#     if request.GET.get('q') == 'GET':
+#             status = Discussion.objects.filter(post__icontains=results)
+#             return render(request,"search_results.html",{"discussions": status})
+#     else:
+#             return render(request,"home.html", {})
+
+# #   if form.is_valid():
 # #         instance =form.save(commit=False)
 # #         form.instance.discussion_id=self.kwargs['pk']
 # #         instance.posted_by=request.user
@@ -138,6 +157,15 @@ def categoryView(request, discussions):
     categories= Discussion.objects.filter('category')
     return render(request, 'discussions/category_list.html', {'categories': categories})
 
+# class SearchListView(ListView):
+#     model=Discussion
+#     template_name='search_list.html'
+
+#     def get_queryset(self):
+#         return Discussion.objects.all(Q(title__icontains='BIPOC'))
+        
+
+    
 class CategoryListView(ListView):
     model=Discussion
     fields=['category']

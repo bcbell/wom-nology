@@ -4,8 +4,15 @@
 <h1>{{user.profile.id}}</h1>
 <h1 class='profile'>{{ user }}</h1>
 <h1>{{avatar}}</h1>
-<h1>{% if photo in avatar %}</h1>
+{% for photo in user.avatar %}
+{% if avatar%}
+<img src="{{avatar.url}}">
+{% else %}
 
+<p>No photos to render</p>
+
+{%endif%}
+{%endfor%}
 
 {% if user  %}
 <span>{{user.profile.first_name}}<span>

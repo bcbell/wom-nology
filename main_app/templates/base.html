@@ -55,9 +55,9 @@
                         <a class="nav-link" href="{% url 'discussions_create'%}" tabindex="-1" "true">Post Discussion</a>
                     </li>   
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <form method='GET' action="{% url 'searchresults' %}" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" name= 'search' placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" value="{{query | escape}}" type="submit">Search</button>
                 </form> 
             </div>
         </nav>

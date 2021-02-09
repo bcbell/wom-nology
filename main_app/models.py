@@ -144,6 +144,7 @@ class Discussion(models.Model):
     def total_likes(self):
         return self.likes.count()
 
+
     class Meta:
         ordering=['-created_at']
 
