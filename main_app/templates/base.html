@@ -16,7 +16,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{% url 'home'%}">Welcome, {{ user.profile.first_name}} | WOM-nology</a>
+            <a class="navbar-brand" href="{% url 'home'%}">Welcome, {% if user.is_authenticated %} {{ user.profile.first_name}} {% else %} Friend {% endif %}| WOM-nology</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

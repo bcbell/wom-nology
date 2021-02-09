@@ -1,15 +1,36 @@
 {% extends 'base.html' %}
 {%load humanize%}
 {% block content %}
+<h1>{{user.profile.id}}</h1>
+<h1 class='profile'>{{ user }}</h1>
+<h1>{{avatar}}</h1>
+<h1>{% if photo in avatar %}</h1>
 
-<h1>{{ user }}</h1>
 
+{% if user  %}
 <span>{{user.profile.first_name}}<span>
 <span>{{user.profile.last_name}}</span>
-<h3>{{user.profile.bio}}<h3>
-<h1>{{profile}}</h1>
+<h3>{{user.id}}</h3>
+{% comment %} <h1>{{profile}}</h1> {% endcomment %}
 
-<img style='width: 90%; margin-top:50x; border: 3px solid black;' src="{{user.profile.avatar}}">
+<img style='width: 90%; margin-top:50x; border: 3px solid black;' src="{{photo.url}}">
 
+{% for photo in avatar %}
+    <img class="profilePhoto" src="{{photo.url}}">
+{% empty %}
+    <div class="profileAvatar">No Photos Uploaded</div>
+{% endfor %}
+
+
+
+
+<form action="{% url 'avatar' %}" enctype="multipart/form-data" method="POST" class="profile">
+    {% csrf_token %}
+    <input type="file" name="photo-file">
+    <br><br>
+    <input type="submit" class="btn" value="Upload Photo">
+</form>
+
+{%endif%}
 
 {% endblock %}

@@ -10,6 +10,17 @@ body{
     background-repeat: no-repeat;
 }
 
+/* Home Page */
+div.homePageHeader{
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    border-bottom: grey 2px solid;
+    background-color: rgba(192, 190, 190, 0.63);
+    outline: #e241a4 2px solid;
+    color: white;
+    text-shadow: black 2px 2px;
+}
+
 /* Discussion List Page */
 div.discussionList{
     text-align: center;

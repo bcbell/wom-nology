@@ -4,14 +4,18 @@ from django.db import transaction
 from .forms import UserForm, ProfileForm, DiscussionForm, ReplyForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
-from .models import Profile, Discussion, Reply
+from .models import Profile, Discussion, Reply, Photo
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
-# from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
+import uuid
+import boto3
 
-# Create your views here.
+S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com/'
+BUCKET = 'wom-nology'
+
+
 def home(request):
     return render(request, 'home.html')
 
@@ -21,7 +25,8 @@ def about(request):
 @login_required
 def profile(request):
     profile=Profile.objects.all()
-    return render(request, 'account/profile.html', {'profile': profile})
+    avatar=Photo.objects.all()
+    return render(request, 'account/profile.html', {'profile': profile, 'avatar':avatar})
 
 @login_required
 def discussionUser(request):
@@ -54,7 +59,7 @@ def discussionList(request):
 
 def discussionDetail(request, discussion_id):
     discussion=Discussion.objects.get(id=discussion_id)
-    reply=Reply.objects.exclude(id__in=discussion.replies.all().values_list('id'))
+    reply=Reply.objects.filter(id__in=discussion.replies.all().values_list('id'))
     reply_form=ReplyForm()
     return render(request, 'main_app/discussion_detail.html', {'discussion': discussion, 'reply_form': reply_form, 'reply':reply})
 
@@ -78,22 +83,41 @@ def add_reply(request, discussion_id):
             instance.author_id=request.user.id
             instance.save()
         return redirect('discussion_detail',discussion_id=discussion_id)
+
   
-  
-#    def add_avatar(request):
+def add_photo(request):
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            photo = Photo(url=url, user_id=user_id)
+            photo.save()
+        except:
+            print('An error occurred uploading file to S3')
+    return redirect('profile', avatar)
+
+
+#   if form.is_valid():
+# #         instance =form.save(commit=False)
+# #         form.instance.discussion_id=self.kwargs['pk']
+# #         instance.posted_by=request.user
+# #         instance.save()
 #     form = ReplyForm()
 #     if request.method == 'POST':
 #         form=ReplyForm(da)
-    # post=Discussion.object.get(id='discussion_id')
-    # reply=Reply.objects.get(id='reply_id')
-    # form=ReplyForm(request.POST or None)
-    # if form.is_valid():
-    #     instance =form.save(commit=False)
-    #     form.instance.discussion_id=self.kwargs['pk']
-    #     instance.posted_by=request.user
-    #     instance.save()
-    #     return redirect('discussions')
-    # return render(request,'main_app/reply_form.html', {'form': form, 'post': post, 'reply': reply})
+#     post=Discussion.object.get(id='discussion_id')
+#     reply=Reply.objects.get(id='reply_id')
+#     form=ReplyForm(request.POST or None)
+#     if form.is_valid():
+#         instance =form.save(commit=False)
+#         form.instance.discussion_id=self.kwargs['pk']
+#         instance.posted_by=request.user
+#         instance.save()
+#         return redirect('discussions')
+#     return render(request,'main_app/reply_form.html', {'form': form, 'post': post, 'reply': reply})
 
 # def Like (request, pk):
 #     post=get_object_or_404(Discussion, id=discussion_id)
@@ -107,29 +131,45 @@ def add_reply(request, discussion_id):
 #     return HttpRepsonseRedirect(reverse)
 
 def categoryListView(request):
-    discussion_menu_list= Category.objects.all()
-    return render(request, {'category': category })
+    category= Discussion.objects.all()
+    return render(request,'discussions/category_list.html', {'category': category })
 
 def categoryView(request, discussions):
-    categories= Discussion.objects.filter('categories')
-    return render(request, {'categories': categories})
+    categories= Discussion.objects.filter('category')
+    return render(request, 'discussions/category_list.html', {'categories': categories})
+
+class CategoryListView(ListView):
+    model=Discussion
+    fields=['category']
+    template_name='discussions/category_list.html'
+
+# class CategoryDetail(DetailView):
+#     model=Discussion
+#     fields='__all__'
+#     template_name='discussions/category_detail.html'
+
 
 class DiscussionDetail(DetailView):
     model=Discussion
     fields='__all__'
 
  
-    # def get_context_data(self, discussion):
-    #     like=get_object_or_404(Discussion, id=discussion_id)
-    #     total_likes=likes.total_likes
+    def get_context_data(self, discussion):
+        like=get_object_or_404(Discussion, id=discussion_id)
+        total_likes=likes.total_likes
 
-    #     liked= False
-    #     if like.likes.filter(id=self.id):
-    #         liked=True
+        liked= False
+        if like.likes.filter(id=self.id):
+            liked=True
         
-    #     context['total_likes']= total_likes
-    #     context['liked']=liked
-    #     return context
+        context['total_likes']= total_likes
+        context['liked']=liked
+        return context
+
+class ProfileUpdate(UpdateView):
+    model=Profile
+    template_name='account/profile.html'
+    fields=['first_name', 'last_name', 'bio','email', 'location', 'it_area']
 
 class DiscussionUpdate(UpdateView):
     model=Discussion
@@ -149,17 +189,5 @@ class ReplyDelete(DeleteView):
     template_name='main_app/reply_confirm_delete.html'
     success_url='/discussions/'
 
-# @login_required
-# @transaction
-# def update_profile(request, user_id):
-#     user=User.objects.get(pk=user_id)
-#     user.profile.bio= 'Please enter your bio here'
 
 
-def stream_file(request, pk):
-   profile= get_object_or_404(Profile, id=pk)
-   response= HttpResponse()
-   response['Content-Type']= profile.content_type
-   response['Content-Length']=len(profile.avatar)
-   response.write(profile.avatar)
-   return response 

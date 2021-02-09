@@ -99,6 +99,8 @@ CATEGORY_CHOICES=(
     ('TC', 'TECH TALK'),
 )
 
+
+
 class Reply(models.Model):
     post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
     avatar= models.BinaryField(null=True, editable=True)
@@ -112,10 +114,7 @@ class Reply(models.Model):
     
 
     def __str__(self):
-        return self.post + ' | ' + str(self.posted_by)
-
-    def __str__(self):
-        return str(self.post)
+        return self.post + ' | ' + str(self.author) 
 
     def total_likes(self):
         return self.likes.count()
@@ -150,7 +149,6 @@ class Discussion(models.Model):
 
 class Profile(models.Model):
     user =models.OneToOneField(User, on_delete=models.CASCADE, related_name= 'profile')
-    avatar=models.ImageField(null=True, editable= True)
     bio =models.TextField(max_length=500, blank=True)
     first_name=models.CharField(max_length=50, blank=True)
     last_name=models.CharField(max_length=50, blank=True)
@@ -165,6 +163,7 @@ class Profile(models.Model):
     def __str__(self):
         return str(self.user)
 
+
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
     if created:
@@ -175,3 +174,9 @@ def update_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
+class Photo(models.Model):
+    url = models.CharField(max_length=200)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"Avatar for profile_id:{self.profile_id} @{self.url}"

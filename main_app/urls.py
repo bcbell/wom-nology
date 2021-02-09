@@ -14,7 +14,8 @@ urlpatterns= [
     path('accounts/profile/', views.profile, name='profile'),
     path('accounts/discussions/', views.discussionUser, name='user_discussions'),
     path('accounts/signup/', views.signup, name='signup'),
-    path('accounts/avatar', views.stream_file, name='avatar'),
+    path('accounts/avatar/', views.add_photo, name='avatar'),
+    path('accounts/<int:pk>/update/', views.ProfileUpdate.as_view(), name='account_update'),
 
 #Discussion Pages
     path('discussions/', views.discussionList, name='discussions'),
@@ -27,12 +28,13 @@ urlpatterns= [
     path('discussions/<int:discussion_id>/add_reply', views.add_reply, name='add_reply'),
     path('reply/<int:pk>/update/', views.ReplyUpdate.as_view(), name='discussion_reply_update'),
     path('reply/<int:pk>/delete/', views.ReplyDelete.as_view(), name='reply_delete'),
+  
 
 #Likes
     # path('like/<int:pk>', views.Like, name='like'),
 
 #Category
-    path('discussions/<str:discussions>/', views.categoryView, name='category'),
-    path('discussions/category', views.categoryListView, name='category_list'),
+    # path('category/<str:discussion>/', views.CategoryDetail.as_view(), name='category_detail'),
+    path('discussions/category', views.CategoryListView.as_view(), name='category_list'),
 
 ]

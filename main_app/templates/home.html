@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Home</h1>
-
-<h2>{{ user }}</h2>
+<div class='homePageHeader'>
+    <h1 class= 'homePage'>Wom-nology | 
+        {% if user.is_authenticated %} 
+            {{ user.profile.first_name}} 
+            {% else %} 
+            Friend
+            {% endif %} 
+            
+    </h1>
+    <h3 class='homePage'>A Site for Womxn in Tech</h3>
+</div>
 
 {% endblock %}

@@ -10,11 +10,11 @@
 <br>
 
 
-{% comment %} <form action='{% url 'like' discussion.id %}' method="POST"> {% endcomment %}
-{% comment %} {% csrf_token%}
+{% comment %} <form action='{% url 'like' discussion.id %}' method="POST">
+ {% csrf_token%}
 {%if user.is_authenticated %}
-{%if liked%} {% endcomment %}
-{% comment %} <button type= 'submit' value='{{discussion.id}}' name=like>Unlike</button>
+{%if liked%} 
+ <button type= 'submit' value='{{discussion.id}}' name=like>Unlike</button>
 {%else%}
 <button type= 'submit' value='{{discussion.id}}' name='discussion_id'>Like</button>
 {%endif%}
@@ -22,7 +22,7 @@
 <small><a href="{%url 'login' %}">Login</a> to Like</small>
 {% endif %}
 </form>
--{{total_likes}} Likes  {% endcomment %}
+-{{total_likes}} Likes   {% endcomment %}
 
 {% if discussion.posted_by == user %} 
 <button><a href="{% url 'discussion_update' discussion.id %}">Edit</button></a>
@@ -31,18 +31,19 @@
 <hr>
 </div>
 
-<h2>Comments ...</h2>
+<h2 class='discussionDetails'>Comments</h2>
 
 
 
 {% comment %} Reply Section {% endcomment %}
 {% comment %} Reply Form {% endcomment %}
- {% if not discussion.replies.all %}
+ {% if discussions.replies.id == reply.id %}
 
  {% for reply in reply %}
 
 <div class='commentSection'>
-<p> {{reply}} | <strong>{{reply.author}} ({{reply.updated_at | naturaltime}})</strong>
+
+<p> {{reply}} | <strong>{{reply.author}} ({{reply.updated_at | naturaltime}}) </strong>
     {% if reply.author == user  %}
     <button>
         <a href="{% url 'discussion_reply_update' reply.id%}" >Edit</a>
@@ -58,7 +59,7 @@
 {% endfor%}
 {%else%}
 
-<h5>Be the first to reply...<a href={% url 'add_reply' discussion.id %}>Reply</a></h5>
+<h5 class='discussionDetails'>Be the first to reply...</h5>
 
 {% endif%}
 
