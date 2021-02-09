@@ -139,9 +139,15 @@ class DiscussionDelete(DeleteView):
     model=Discussion
     success_url='/discussions/'
 
+class ReplyUpdate(UpdateView):
+    model=Reply
+    fields= ['post']
+    success_url='/discussions/'
+
 class ReplyDelete(DeleteView):
     model=Reply
-    success_url= reverse_lazy('discussions')
+    template_name='main_app/reply_confirm_delete.html'
+    success_url='/discussions/'
 
 # @login_required
 # @transaction

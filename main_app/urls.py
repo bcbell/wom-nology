@@ -25,7 +25,8 @@ urlpatterns= [
 
 # Reply
     path('discussions/<int:discussion_id>/add_reply', views.add_reply, name='add_reply'),
-    path('discussions/<int:pk>/reply/delete/', views.ReplyDelete.as_view(), name='discussion_reply_delete'),
+    path('reply/<int:pk>/update/', views.ReplyUpdate.as_view(), name='discussion_reply_update'),
+    path('reply/<int:pk>/delete/', views.ReplyDelete.as_view(), name='reply_delete'),
 
 #Likes
     # path('like/<int:pk>', views.Like, name='like'),

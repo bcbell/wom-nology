@@ -9,5 +9,5 @@
 <form action='' method='post'>
     {% csrf_token%}
     <button type="submit">Yes, delete.</button>
-    <button><a href='{% url 'discussion_detail' discussion.id %}'>Cancel</button></a>
+    <button><a href='{% url 'discussions' %}'>Cancel</button></a>
 {% endblock%}

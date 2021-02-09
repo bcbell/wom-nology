@@ -107,6 +107,8 @@ class Reply(models.Model):
     updated_at= models.DateTimeField(auto_now=True)
     likes=models.ManyToManyField(User, related_name='reply_post')
     
+    def get_absolute_url(self):
+        return reverse("discussion_detail", kwargs={"pk": self.pk})
     
 
     def __str__(self):
@@ -120,7 +122,6 @@ class Reply(models.Model):
 
     class Meta:
         ordering=['-created_at']
-
 
 
 class Discussion(models.Model):
@@ -150,7 +151,6 @@ class Discussion(models.Model):
 class Profile(models.Model):
     user =models.OneToOneField(User, on_delete=models.CASCADE, related_name= 'profile')
     avatar=models.ImageField(null=True, editable= True)
-    # is_active = models.BooleanField(('active'), default=True)
     bio =models.TextField(max_length=500, blank=True)
     first_name=models.CharField(max_length=50, blank=True)
     last_name=models.CharField(max_length=50, blank=True)
@@ -175,8 +175,3 @@ def update_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
-#User can have many discussion post 
-#User can have many replies to a discussion post
-# Create your models here.
-
-#Model Discussion - Foreign Key(User) and ManyToManyField (Reply)
