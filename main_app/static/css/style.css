@@ -10,6 +10,59 @@ body{
     background-repeat: no-repeat;
 }
 
+button{
+    padding: 5px 10px;
+    font-size: 15px;
+    color: rgb(179, 54, 184);
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px #999999;
+    cursor: pointer;
+    outline: none;
+    font-family: 'Cinzel', serif;
+    
+}
+button:hover {
+    padding: 5px 10px;
+    font-size: 15px;
+    color: white;
+    background-color: rgb(221, 54, 243);
+    border-radius: 15px;
+    box-shadow: 0 10px #999999;
+    cursor: pointer;
+    outline: none;
+    font-family: 'Architects Daughter', cursive;
+    font-variant-caps: small-caps ;
+  }
+  button:active {
+  background-color: rgb(247, 246, 250);
+  box-shadow: 0 5px #666666;
+  transform: translateY(5px);
+  outline: none;
+  }
+
+/* Sign Up */
+div.signup{
+    background-color: rgba(80, 79, 79, 0.685);
+    color: white;
+   
+}
+div.signupBody{
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+h2.signup{
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    border-bottom: grey 2px solid;
+    background-color: rgba(192, 190, 190, 0.63);
+    outline: #e241a4 2px solid;
+    color: white;
+    text-shadow: black 2px 2px;
+    font-variant: small-caps;
+    font-size: 50px;
+}
 /* Home Page */
 div.homePageHeader{
     font-family: 'Cormorant Garamond', serif;
@@ -21,6 +74,35 @@ div.homePageHeader{
     text-shadow: black 2px 2px;
 }
 
+/* About Page */
+div.about{
+    background-color: rgba(255, 0, 255, 0.568);
+    color: rgb(7, 7, 7);
+}
+img.aboutImage{
+   margin: 30px;
+}
+div.aboutBody{
+    display: flex;
+    justify-content: space-evenly;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 25px;
+}
+div.aboutHeader{
+    text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    border-bottom: grey 2px solid;
+    background-color: rgba(192, 190, 190, 0.63);
+    outline: #e241a4 2px solid;
+    color: white;
+    text-shadow: black 2px 2px;
+}
+div.aboutSection{
+    display: inline-flexbox;
+    margin: 50px;
+    text-shadow: black .5px .5px;
+}
 /* Discussion List Page */
 div.discussionList{
     text-align: center;
@@ -59,11 +141,13 @@ p.discussionDetails{
     font-size: 20px;
 }
 /* Footer */
-footer{
-    padding-top: 0;
-    text-align: center;
-    bottom: 0%;
+div.footer{
+    left: 0;
+    right: 0;
+    bottom: 0;
     position: fixed;
+    text-align: right;
 
 }
+
 

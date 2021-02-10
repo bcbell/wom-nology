@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
  
-  <h2>Sign up</h2>
+<div class="signup">
+<h2 class='signup'>Sign Up </h2>
+<div class='signupBody'>
+<h4>Already have an account? <a href={% url 'login' %}>Login here</a></h5>
 
-   
   <form method="post" action="{% url 'signup' %}">
   <table>
     {% csrf_token %}
@@ -13,4 +15,6 @@
 
     <button type="submit">Sign up</button>
   </form>
+  </div>
+  </div>
 {% endblock %}

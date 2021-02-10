@@ -16,7 +16,7 @@ class UserForm(UserCreationForm):
 class ProfileForm(forms.ModelForm): 
     class Meta:
         model= Profile
-        fields=[ 'first_name','last_name', 'email',  'location', 'it_area','bio']
+        fields=[ 'first_name','last_name', 'email',  'location', 'it_area', 'linkedin_url', 'facebook_url', 'twitter_url','website_url','bio']
 
 class ReplyForm(ModelForm):
     class Meta:
@@ -30,34 +30,3 @@ class DiscussionForm(ModelForm):
         fields=['title','category', 'post']
 
 
-        # fields=[ 'title','post', 'posted_by']
-
-# #     max_upload_limit= 2* 1024 *1024
-# #     max_upload_limit_text=naturalsize(max_upload_limit)
-
-# #     avatar=forms.FileField(required=False, label='File to Upload:' + max_upload_limit_text)
-# #     upload_field_name='avatar'
-
-# #  # Validate the size of the picture
-# #     def clean(self):
-# #         cleaned_data = super().clean()
-# #         avatar = cleaned_data.get('avatar')
-# #         if avatar is None:return
-# #         if len(avatar) > self.max_upload_limit:
-# #             self.add_error('avatar', "File must be < "+self.max_upload_limit_text+" bytes")
-
-# #     # Convert uploaded File object to a picture
-# #     def save(self, commit=True):
-# #         instance = super(ProfileForm, self).save(commit=False)
-
-# #         # We only need to adjust picture if it is a freshly uploaded file
-# #         f = instance.avatar   # Make a copy
-# #         if isinstance(f, InMemoryUploadedFile):  # Extract data from the form to the model
-# #             bytearr = f.read()
-# #             instance.content_type = f.content_type
-# #             instance.picture = bytearr  # Overwrite with the actual image data
-
-# #         if commit:
-# #             instance.save()
-
-# #         return instance

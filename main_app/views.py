@@ -119,9 +119,10 @@ def categoryListView(request):
     category= Discussion.objects.all()
     return render(request,'discussions/category_list.html', {'category': category })
 
-def categoryView(request, discussions):
+def categoryView(request, category):
     categories= Discussion.objects.filter('category')
-    return render(request, 'discussions/category_list.html', {'categories': categories})
+    return render(request, 'discussions/category_list.html', {'categories': categories, 'category': 
+    category})
 
    
 class CategoryListView(ListView):
@@ -145,10 +146,6 @@ class CategoryListView(ListView):
 #         context['liked']=liked
 #         return context
 
-class ProfileUpdate(UpdateView):
-    model=Profile
-    template_name='account/profile.html'
-    fields=['first_name', 'last_name', 'bio','email', 'location', 'it_area']
 
 class DiscussionUpdate(UpdateView):
     model=Discussion

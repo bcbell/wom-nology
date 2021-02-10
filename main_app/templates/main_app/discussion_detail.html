@@ -5,12 +5,7 @@
 
 <div class='discussionDetails'>
     <h1>Discussion on {{discussion.title}}</h1>  
-
-
-<h4>Created by: {{discussion.posted_by}}</h4>
-   
-
-
+    <h4>Created by:<a href="{% url 'profile'%}"> {{discussion.posted_by}}</a></h4>
     <span class='discussionDetails'>Post: {{discussion.post}}</span>
 <br>
 
@@ -41,8 +36,6 @@
 
 {% comment %} Reply Section {% endcomment %}
 {% comment %} Reply Form {% endcomment %}
- {% comment %} {% if discussions.replies.id == reply.id %} {% endcomment %}
-
 
 
 <div class='commentSection'>

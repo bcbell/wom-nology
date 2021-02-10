@@ -7,31 +7,30 @@ from django.utils.text import slugify
 import time
 from ckeditor.fields import RichTextField
 
-# from django.conf import settings
 
 AREAS=(
-        ('IT', 'Information Technology'),
-        ('BI', 'Business Intelligence'),
-        ('CS', 'Cyber Security'),
-        ('C', 'Cloud'),
-        ('DM', 'Data Management'),
-        ('D', 'Database'),
-        ('GD', 'Game Development'),
-        ('GT', 'Geographic IT'),
-        ('HT', 'Healthcare IT'),
-        ('IA', 'IT Audit'),
-        ('IC', 'IT Coordinator'),
-        ('IE', 'IT Executive'),
-        ('IM', 'IT Management'),
-        ('IP', 'IT Project'),
-        ('IS', 'IT Specialist'),
-        ('TT', 'IT Training'),
-        ('N', 'Network'),
-        ('SD', 'Software Developer'),
-        ('SM', 'Software Management'),
-        ('SQ', 'Software Quality'),
-        ('SD', 'System Administator'),
-        ('SA', 'System Analyst'),  
+        ('Information Technology', 'Information Technology'),
+        ('Business Intelligence', 'Business Intelligence'),
+        ('Cyber Security', 'Cyber Security'),
+        ('Cloud', 'Cloud'),
+        ('Data Management', 'Data Management'),
+        ('Database', 'Database'),
+        ('Game Development', 'Game Development'),
+        ('Geographic IT', 'Geographic IT'),
+        ('Healthcare IT', 'Healthcare IT'),
+        ('IT Audit', 'IT Audit'),
+        ('IT Coordinator', 'IT Coordinator'),
+        ('IT Executive', 'IT Executive'),
+        ('IT Management', 'IT Management'),
+        ('IT Project', 'IT Project'),
+        ('IT Specialist', 'IT Specialist'),
+        ('IT Training', 'IT Training'),
+        ('Network', 'Network'),
+        ('Software Developer', 'Software Developer'),
+        ('Software Management', 'Software Management'),
+        ('Software Quality', 'Software Quality'),
+        ('System Administator', 'System Administator'),
+        ('System Analyst', 'System Analyst'),  
     )
 STATE_CHOICES = (
 	('AL', 'Alabama'),
@@ -85,19 +84,19 @@ STATE_CHOICES = (
 	('WY', 'Wyoming')
 )
 CATEGORY_CHOICES=(
-    ('GA', 'ADVICE & RESOURCES-GENERAL'),
-    ('CA', 'ADVICE & RESOURCES-CAREER'),
-    ('WC', 'BIPOC IN TECH'),
-    ('CC', 'CAREER CHANGER'),
-    ('CD', 'CAREER DEVELOPMENT'),
-    ('EN', 'ENTREPRENEURSHIP'),
-    ('WP', 'IN THE WORKPLACE'),
-    ('QA', 'Q & A'),
-    ('MO', 'MOMMY IN TECH'),
-    ('NW', 'NETWORKING'),
-    ('NT', 'NEW TO TECH'),
-    ('SH', 'TECH SISTERHOOD'),
-    ('TC', 'TECH TALK'),
+    ('ADVICE & RESOURCES-GENERAL', 'ADVICE & RESOURCES-GENERAL'),
+    ('ADVICE & RESOURCES-CAREER', 'ADVICE & RESOURCES-CAREER'),
+    ('BIPOC IN TECH', 'BIPOC IN TECH'),
+    ('CAREER CHANGER', 'CAREER CHANGER'),
+    ('CAREER DEVELOPMENT', 'CAREER DEVELOPMENT'),
+    ('ENTREPRENEURSHIP', 'ENTREPRENEURSHIP'),
+    ('IN THE WORKPLACE', 'IN THE WORKPLACE'),
+    ('Q & A', 'Q & A'),
+    ('MOMMY IN TECH', 'MOMMY IN TECH'),
+    ('NETWORKING', 'NETWORKING'),
+    ('NEW TO TECH', 'NEW TO TECH'),
+    ('TECH SISTERHOOD', 'TECH SISTERHOOD'),
+    ( 'TECH TALK', 'TECH TALK'),
 )
 
 
@@ -105,7 +104,6 @@ CATEGORY_CHOICES=(
 class Reply(models.Model):
     # post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
     post=RichTextField(blank=True, null=True)
-    avatar= models.BinaryField(null=True, editable=True)
     author=models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_author')
     created_at= models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now=True)
@@ -128,7 +126,7 @@ class Reply(models.Model):
 class Discussion(models.Model):
     title= models.CharField(max_length= 500, validators=[MinLengthValidator(3, "Please create a title greater than 3 characters")])
     post=models.TextField()
-    category= models.CharField(max_length=50,choices=CATEGORY_CHOICES, default=[0][0])
+    category= models.CharField(max_length=50,choices=CATEGORY_CHOICES, default='Q & A')
     posted_by=models.ForeignKey(User, on_delete=models.CASCADE, related_name='author')
     slug = models.SlugField
     created_at= models.DateTimeField(auto_now_add=True)
@@ -150,6 +148,13 @@ class Discussion(models.Model):
     class Meta:
         ordering=['-created_at']
 
+class Photo(models.Model):
+    url = models.CharField(max_length=200)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return f"Avatar for profile_id:{self.user.id} @{self.url}"
+
 class Profile(models.Model):
     user =models.OneToOneField(User, on_delete=models.CASCADE, related_name= 'profile')
     bio =models.TextField(max_length=500, blank=True)
@@ -162,10 +167,14 @@ class Profile(models.Model):
     updated_at=models.DateTimeField(auto_now=True)
     discussions=models.ManyToManyField(Discussion, related_name='posts')
     replies= models.ManyToManyField(Reply, related_name='replies')
+    avatar=models.ForeignKey(Photo, on_delete=models.CASCADE, related_name='pic', null=True)
+    linkedin_url=models.CharField(max_length=255, null=True, blank=True)
+    facebook_url=models.CharField(max_length=255, null=True, blank=True)
+    twitter_url=models.CharField(max_length=255, null=True, blank=True)
+    website_url=models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return str(self.user)
-
 
 @receiver(post_save, sender=User)
 def update_user_profile(sender, instance, created, **kwargs):
@@ -177,9 +186,6 @@ def update_user_profile(sender, instance, created, **kwargs):
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
-class Photo(models.Model):
-    url = models.CharField(max_length=200)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     
-    def __str__(self):
-        return f"Avatar for profile_id:{self.user.id} @{self.url}"
+    
