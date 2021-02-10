@@ -1,43 +1,51 @@
 {% extends 'base.html' %}
 {%load humanize%}
 {% block content %}
-<h1>{{user.profile.id}}</h1>
-<h1 class='profile'>{{ user }}</h1>
-<h1>{{avatar}}</h1>
-{% for photo in user.avatar %}
-{% if avatar%}
-<img src="{{avatar.url}}">
-{% else %}
 
-<p>No photos to render</p>
 
-{%endif%}
-{%endfor%}
+<div class="profile">
+<div>
 
-{% if user  %}
-<span>{{user.profile.first_name}}<span>
-<span>{{user.profile.last_name}}</span>
-<h3>{{user.id}}</h3>
-{% comment %} <h1>{{profile}}</h1> {% endcomment %}
+<h1 class="profile">{{user.profile.first_name}} {{user.profile.last_name}}</h1>
+<button><a href="{%url "user_discussions" %}">Your Discussions</a></button>
+</p>
+</div>
+<h5>Location: {{user.profile.location}}</h5>
+<h5>Area of Specialization :{{user.profile.it_area}}</h5>
+<span>
+<span></span>
 
-<img style='width: 90%; margin-top:50x; border: 3px solid black;' src="{{photo.url}}">
 
 {% for photo in avatar %}
-    <img class="profilePhoto" src="{{photo.url}}">
-{% empty %}
-    <div class="profileAvatar">No Photos Uploaded</div>
-{% endfor %}
+{% if photo%}
+<img style='width: 250px; height:300px; margin-top:50x; border: 3px solid black;' src="{{photo.url}}">
+<br>
+{%else%}
 
-
-
-
-<form action="{% url 'avatar' %}" enctype="multipart/form-data" method="POST" class="profile">
+<h5>No photos currently available</h5> 
+{%endif%}
+{%endfor%}
+<form action="{% url 'profile' %}" enctype="multipart/form-data" method="POST" class="profile">
     {% csrf_token %}
     <input type="file" name="photo-file">
     <br><br>
-    <input type="submit" class="btn" value="Upload Photo">
+    <button type="submit">Upload Photo </button>
 </form>
+<br>
+<h5 class="profile">About {{user.profile.first_name}}:</h5>
+<h6>{{user.profile.bio}}</h6>
 
-{%endif%}
+</p>
 
-{% endblock %}
+
+ 
+
+
+
+
+
+
+
+
+
+{%endblock%}

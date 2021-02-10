@@ -177,7 +177,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 class Photo(models.Model):
     url = models.CharField(max_length=200)
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
-        return f"Avatar for profile_id:{self.profile_id} @{self.url}"
+        return f"Avatar for profile_id:{self.user.id} @{self.url}"

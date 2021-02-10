@@ -14,7 +14,7 @@ urlpatterns= [
     path('accounts/profile/', views.profile, name='profile'),
     path('accounts/discussions/', views.discussionUser, name='user_discussions'),
     path('accounts/signup/', views.signup, name='signup'),
-    path('accounts/avatar/', views.add_photo, name='avatar'),
+    path('accounts/avatar', views.add_photo, name='avatar'),
     path('accounts/<int:pk>/update/', views.ProfileUpdate.as_view(), name='account_update'),
 
 #Discussion Pages

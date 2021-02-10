@@ -18,16 +18,33 @@ BUCKET = 'wom-nology'
 
 
 def home(request):
-    return render(request, 'home.html')
+    avatar=Photo.objects.all()
+    return render(request, 'home.html', {'avatar})
 
 def about(request):
     return render(request, 'about.html')
 
 @login_required
 def profile(request):
-    profile=Profile.objects.all()
     avatar=Photo.objects.all()
+    profile=Profile.objects.all()
     return render(request, 'account/profile.html', {'profile': profile, 'avatar':avatar})
+
+# def add_photo(request, profile_id):
+#     photo_file = request.FILES.get('photo-file', None)
+#     if photo_file:
+#         s3 = boto3.client('s3')
+#         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+#         try:
+#             s3.upload_fileobj(photo_file, BUCKET, key)
+#             url = f"{S3_BASE_URL}{BUCKET}/{key}"
+#             photo = Photo(url=url, profile_id=profile_id)
+#             photo.save()
+#         except:
+#             print('An error occurred uploading file to S3')
+#     return redirect('profile', profile_id=profile_id)
+
+
 
 @login_required
 def discussionUser(request):
@@ -95,11 +112,11 @@ def add_photo(request):
         try:
             s3.upload_fileobj(photo_file, BUCKET, key)
             url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            photo = Photo(url=url, user_id=user_id)
+            photo = Photo(url=url)
             photo.save()
         except:
             print('An error occurred uploading file to S3')
-    return redirect('profile')
+    return redirect('profile', {'avatar': avatar})
 
 def search(request):
     comments=Discussion.objects.all().order_by('-created_at')
@@ -111,32 +128,6 @@ def search(request):
         return render(request, 'main_app/search_list.html', {'comments': comments})
 
 
-# def search(request):
-#     results =  request.GET.get('q')
-#     if request.GET.get('q') == 'GET':
-#             status = Discussion.objects.filter(post__icontains=results)
-#             return render(request,"search_results.html",{"discussions": status})
-#     else:
-#             return render(request,"home.html", {})
-
-# #   if form.is_valid():
-# #         instance =form.save(commit=False)
-# #         form.instance.discussion_id=self.kwargs['pk']
-# #         instance.posted_by=request.user
-# #         instance.save()
-#     form = ReplyForm()
-#     if request.method == 'POST':
-#         form=ReplyForm(da)
-#     post=Discussion.object.get(id='discussion_id')
-#     reply=Reply.objects.get(id='reply_id')
-#     form=ReplyForm(request.POST or None)
-#     if form.is_valid():
-#         instance =form.save(commit=False)
-#         form.instance.discussion_id=self.kwargs['pk']
-#         instance.posted_by=request.user
-#         instance.save()
-#         return redirect('discussions')
-#     return render(request,'main_app/reply_form.html', {'form': form, 'post': post, 'reply': reply})
 
 # def Like (request, pk):
 #     post=get_object_or_404(Discussion, id=discussion_id)
@@ -157,15 +148,7 @@ def categoryView(request, discussions):
     categories= Discussion.objects.filter('category')
     return render(request, 'discussions/category_list.html', {'categories': categories})
 
-# class SearchListView(ListView):
-#     model=Discussion
-#     template_name='search_list.html'
-
-#     def get_queryset(self):
-#         return Discussion.objects.all(Q(title__icontains='BIPOC'))
-        
-
-    
+   
 class CategoryListView(ListView):
     model=Discussion
     fields=['category']
