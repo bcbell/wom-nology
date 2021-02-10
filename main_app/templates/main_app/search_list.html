@@ -1,15 +1,25 @@
 {% extends 'base.html' %}
 {% block content %}
 
+
 <div class="container">
     <h1>Search Results</h1><br>
+    {%if comments %}
     {% for discussion in comments %}
-    <h1><a href={% url 'discussion_detail' discussion.id %}> {{forloop.counter}}. {{discussion.title}}</a></h1>Date Created: {{discussion.created_at}}| Last Update: {{discussion.updated_at}}
-    <h5>{{discussion.post}}</h5>
    
     
-    {% endfor %}
+    <h1><a href={% url 'discussion_detail' discussion.id %}> {{forloop.counter}}.{{discussion.title}}</a></h1>Date Created: {{discussion.created_at}}| Last Update: {{discussion.updated_at}}
+    <h4>{{discussion.post}}</h4>
+    {%endfor%}
+    {% else %}
+  
+   <p> No search results rendered</p>
+    
+    {% endif %}
+    
 </div>
+
+
 
 
 {% endblock %}

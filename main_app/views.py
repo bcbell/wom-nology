@@ -121,6 +121,11 @@ def like (request, pk):
     discussion.likes.add(request.user)
     return HttpResponseRedirect(reverse('discussion_detail', args=[str(pk)]))
 
+def like (request, pk):
+    discussion =get_object_or_404(Discussion, id=request.POST.get('discussion_id'))
+    discussion.likes.add(request.user)
+    return HttpResponseRedirect(reverse('discussion_detail', args=[str(pk)]))
+
 class DiscussionUpdate(UpdateView):
     model=Discussion
     fields=['title', 'post']
