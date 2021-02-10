@@ -19,7 +19,7 @@ BUCKET = 'wom-nology'
 
 def home(request):
     avatar=Photo.objects.all()
-    return render(request, 'home.html', {'avatar})
+    return render(request, 'home.html', {'avatar':avatar})
 
 def about(request):
     return render(request, 'about.html')
@@ -29,21 +29,6 @@ def profile(request):
     avatar=Photo.objects.all()
     profile=Profile.objects.all()
     return render(request, 'account/profile.html', {'profile': profile, 'avatar':avatar})
-
-# def add_photo(request, profile_id):
-#     photo_file = request.FILES.get('photo-file', None)
-#     if photo_file:
-#         s3 = boto3.client('s3')
-#         key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-#         try:
-#             s3.upload_fileobj(photo_file, BUCKET, key)
-#             url = f"{S3_BASE_URL}{BUCKET}/{key}"
-#             photo = Photo(url=url, profile_id=profile_id)
-#             photo.save()
-#         except:
-#             print('An error occurred uploading file to S3')
-#     return redirect('profile', profile_id=profile_id)
-
 
 
 @login_required
@@ -72,14 +57,16 @@ def signup(request):
     })
 
 def discussionList(request):
+    avatar=Photo.objects.get()
     posts=Discussion.objects.all()
-    return render(request, 'discussions/discussion_list.html', {'posts': posts})
+    return render(request, 'discussions/discussion_list.html', {'posts': posts, "avatar": avatar})
 
 def discussionDetail(request, discussion_id):
+    avatar=Photo.objects.all()
     discussion=Discussion.objects.get(id=discussion_id)
-    reply=Reply.objects.filter(id__in=discussion.replies.all().values_list('id'))
+    replies=Reply.objects.exclude(id__in=discussion.replies.all().values_list('id'))
     reply_form=ReplyForm()
-    return render(request, 'main_app/discussion_detail.html', {'discussion': discussion, 'reply_form': reply_form, 'reply':reply})
+    return render(request, 'main_app/discussion_detail.html', {'discussion': discussion, 'reply_form': reply_form, 'replies':replies, "avatar": avatar})
 
 @login_required
 def discussionCreate(request):
@@ -128,18 +115,6 @@ def search(request):
         return render(request, 'main_app/search_list.html', {'comments': comments})
 
 
-
-# def Like (request, pk):
-#     post=get_object_or_404(Discussion, id=discussion_id)
-#     liked= False
-#     if post.likes.filter(id=request.user):
-#         post.likes.remove(request.user)
-#         liked= False
-#     else:
-#         post.likes.add(request.user)
-#         liked=True
-#     return HttpRepsonseRedirect(reverse)
-
 def categoryListView(request):
     category= Discussion.objects.all()
     return render(request,'discussions/category_list.html', {'category': category })
@@ -154,28 +129,21 @@ class CategoryListView(ListView):
     fields=['category']
     template_name='discussions/category_list.html'
 
-# class CategoryDetail(DetailView):
+# class DiscussionDetail(DetailView):
 #     model=Discussion
 #     fields='__all__'
-#     template_name='discussions/category_detail.html'
 
+#     def get_context_data(self, discussion):
+#         like=get_object_or_404(Discussion, id=discussion_id)
+#         total_likes=likes.total_likes
 
-class DiscussionDetail(DetailView):
-    model=Discussion
-    fields='__all__'
-
- 
-    def get_context_data(self, discussion):
-        like=get_object_or_404(Discussion, id=discussion_id)
-        total_likes=likes.total_likes
-
-        liked= False
-        if like.likes.filter(id=self.id):
-            liked=True
+#         liked= False
+#         if like.likes.filter(id=self.id):
+#             liked=True
         
-        context['total_likes']= total_likes
-        context['liked']=liked
-        return context
+#         context['total_likes']= total_likes
+#         context['liked']=liked
+#         return context
 
 class ProfileUpdate(UpdateView):
     model=Profile

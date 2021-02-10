@@ -52,10 +52,13 @@ div.discussionDetails{
 }
 span.discussionDetails{
     font-size: 25px;
-    font-family: 'Cormorant Garamond', serif;
-    
+    font-family: 'Cormorant Garamond', serif;   
 }
-
+p.discussionDetails{
+    font-family: 'Cormorant Garamond', serif; 
+    font-size: 20px;
+}
+/* Footer */
 footer{
     padding-top: 0;
     text-align: center;

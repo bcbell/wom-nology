@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.core.validators import MinLengthValidator
 from django.utils.text import slugify
 import time
+from ckeditor.fields import RichTextField
 
 # from django.conf import settings
 
@@ -102,7 +103,8 @@ CATEGORY_CHOICES=(
 
 
 class Reply(models.Model):
-    post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
+    # post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
+    post=RichTextField(blank=True, null=True)
     avatar= models.BinaryField(null=True, editable=True)
     author=models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_author')
     created_at= models.DateTimeField(auto_now_add=True)
@@ -114,7 +116,7 @@ class Reply(models.Model):
     
 
     def __str__(self):
-        return self.post + ' | ' + str(self.author) 
+        return str(self.author) 
 
     def total_likes(self):
         return self.likes.count()

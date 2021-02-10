@@ -5,7 +5,12 @@
 
 <div class='discussionDetails'>
     <h1>Discussion on {{discussion.title}}</h1>  
-    <h4>Created by: {{discussion.posted_by}}</h4>
+
+
+<h4>Created by: {{discussion.posted_by}}</h4>
+   
+
+
     <span class='discussionDetails'>Post: {{discussion.post}}</span>
 <br>
 
@@ -31,42 +36,53 @@
 <hr>
 </div>
 
-<h2 class='discussionDetails'>Comments</h2>
-
+<h2 class='discussionDetails'>Comments...</h2>
 
 
 {% comment %} Reply Section {% endcomment %}
 {% comment %} Reply Form {% endcomment %}
- {% if discussions.replies.id == reply.id %}
+ {% comment %} {% if discussions.replies.id == reply.id %} {% endcomment %}
 
- {% for reply in reply %}
+
 
 <div class='commentSection'>
+{% for reply in replies %}
+<p class='discussionDetails'>
 
-<p> {{reply}} | <strong>{{reply.author}} ({{reply.updated_at | naturaltime}}) </strong>
+
+{% for photo in avatar%}
+{%if photo.user.id == reply.author.id %}
+<img style='width: 100px; height:100px; margin-top:50x; border: 3px solid black;' src="{{photo.url}}">
+{%endif%} 
+{%endfor%} 
+
+{{reply.post | safe}}  
+<strong> {{reply}}| ({{reply.updated_at | naturaltime}}) </strong>
+
     {% if reply.author == user  %}
     <button>
         <a href="{% url 'discussion_reply_update' reply.id%}" >Edit</a>
     </button> 
     <button><a href="{% url 'reply_delete' reply.id%}">Delete</button></a>
-    
+     {%endif%}
     <hr>
 </p>
      
 <br>
+{%endfor%}
 
-{%endif%}
-{% endfor%}
-{%else%}
+
+ {% comment %} {%else%} 
 
 <h5 class='discussionDetails'>Be the first to reply...</h5>
 
-{% endif%}
+{% endif%} {% endcomment %}
 
 </br>
 {% comment %} Comment Form {% endcomment %}
 <form method='POST' action="{% url 'add_reply' discussion.id %}"> 
     {%csrf_token %}
+    {{reply_form.media}}
     {{reply_form.as_p}}
     <button type='submit'>Submit</button>
     <button><a href="{% url 'discussion_detail' discussion.id %}" >Cancel</button></a> 
