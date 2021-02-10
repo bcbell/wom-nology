@@ -105,7 +105,7 @@ CATEGORY_CHOICES=(
 class Reply(models.Model):
     post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
     # post=RichTextField(blank=True, null=True)
-    # author=models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_author')
+    author=models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_author')
     created_at= models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now=True)
     likes=models.ManyToManyField(User, related_name='reply_post')
