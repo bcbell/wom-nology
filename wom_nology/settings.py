@@ -49,7 +49,9 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'crispy_forms',
     'ckeditor',
+    
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -137,3 +139,4 @@ LOGOUT_REDIRECT_URL='/'
 
 import django_on_heroku
 django_on_heroku.settings(locals())
+

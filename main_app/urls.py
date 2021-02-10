@@ -1,6 +1,7 @@
 from django.urls import path, reverse_lazy
 from . import views
-
+from django.conf.urls.static import static
+from django.conf import settings
 
 # Need path to read, update, delete, add post, edit post, delete post, profile, update, delete, edit, upload an avatar
 
@@ -19,7 +20,6 @@ urlpatterns= [
 
 #Discussion Pages
     path('discussions/', views.discussionList, name='discussions'),
-    # path('discussions/<int:discussion_id>/', views.discussionDetail, name='discussion_detail'),
     path('discussions/<int:discussion_id>/', views.discussionDetail, name='discussion_detail'),
     path('discussions/create', views.discussionCreate, name='discussions_create'),
     path('discussions/<int:pk>/update/', views.DiscussionUpdate.as_view(), name='discussion_update'),
@@ -30,12 +30,13 @@ urlpatterns= [
     path('reply/<int:pk>/update/', views.ReplyUpdate.as_view(), name='discussion_reply_update'),
     path('reply/<int:pk>/delete/', views.ReplyDelete.as_view(), name='reply_delete'),
 
-#Search Form
-    path('search/results/', views.search, name='searchresults'),
-
 #Likes
     path('like/<int:pk>', views.like, name='like'),
 
-
+#Search Form
+    path('search/results/', views.search, name='searchresults'),
+   
+    
+    
 
 ]

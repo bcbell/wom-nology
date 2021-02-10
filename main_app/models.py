@@ -8,6 +8,7 @@ import time
 from ckeditor.fields import RichTextField
 
 
+
 AREAS=(
         ('Information Technology', 'Information Technology'),
         ('Business Intelligence', 'Business Intelligence'),
