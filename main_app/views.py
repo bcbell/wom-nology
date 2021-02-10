@@ -66,9 +66,9 @@ def signup(request):
     })
 
 def discussionList(request):
-    avatar=Photo.objects.get()
+    # avatar=Photo.objects.get()
     posts=Discussion.objects.all()
-    return render(request, 'discussions/discussion_list.html', {'posts': posts, "avatar": avatar})
+    return render(request, 'discussions/discussion_list.html', {'posts': posts})
 
 @login_required
 def discussionCreate(request):
