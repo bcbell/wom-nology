@@ -10,16 +10,16 @@ This application is a discussion board designed for and inclusive of all womxn c
 
 __DEMO__
 
-For demo, visit (url)
+For demo, visit (https://wom-nology.herokuapp.com/)
 
 __UI/Design Aesthetics__
 - Colors: Soft naturals and relaxing colors
-- Font:
+- Font: Google Fonts
 
 __Developer Overview__
 - CRUD (Create, Read, Update, Delete)
 - MVT (Model, View, Template)
-- API:
+- API: AWS
 
 __List of Technologies Used:__
 - Python
@@ -32,8 +32,13 @@ __List of Technologies Used:__
 - Trello
 - Lucidchat (Wireframe)
 - Creately (ERD)
+- AWS
 
 __Future Enhancements__
+
+- Incorpoate additional APIs (such as Meetup.com, quotes, news)
+- Add more search functionality 
+- Create a categories model to allow users to explore categories
 
 __Trello__
 
@@ -46,3 +51,16 @@ __Wireframe__
 __ERD/Data Modeling__
 
 ![ERD](https://i.imgur.com/oe3vlHX.png)
+
+__LOGO__
+![Logo](https://i.imgur.com/HgZDlRc.png)
+
+__FINAL RESULTS__
+
+![DemoImage](https://i.imgur.com/WMTg28T.png)
+
+![DemoImage](https://i.imgur.com/b5tnJqX.png)
+
+![DemoImage](https://i.imgur.com/76M5QHW.png)
+
+
