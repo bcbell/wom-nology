@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<h1>{{user.profile.first_name}}'s Discussions </h1>
+<div class="userDiscussions">
+<h1 class="userDiscussion">{{user.profile.first_name}}'s Discussions </h1>
 
 <p>
 {% if posts %}
-{% comment %} {% if p.posted_by == user %}  {% endcomment %}
+
 <ul>
 {% for p in posts %}
     <ol>
-        <a class= "index" href="{% url 'discussion_detail' p.id%}"><h3>{{p}}</h3></a>
+        <a class= "userDiscussion" href="{% url 'discussion_detail' p.id%}"><h3>{{p}}</h3></a>
     {% if p.posted_by == user %} 
-    (<a class="indexChange" href='#'>Edit</a> | <a class='indexChange' href='#'>Delete</a>)
+    (<a class="userDiscussion" href='{% url 'discussion_update' p.id %}'>Edit</a> | <a class='userDiscussion' href='{% url 'discussion_delete' p.id %}'>Delete</a>)
     {% endif%} 
     </ol>
 {%endfor%}
@@ -22,8 +22,9 @@
  {% endif %}
 </p> 
 
-<a class='indexNew' href={%url 'discussions_create'%}>Post a discussion</a> 
+<a class='userDiscussion' href={%url 'discussions_create'%}>Post a discussion</a> 
 </p>
 
+</div>
 
 {%endblock%}

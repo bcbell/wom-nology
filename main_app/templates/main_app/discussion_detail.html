@@ -10,7 +10,7 @@
 <br>
 
 
-{% comment %} <form action='{% url 'like' discussion.id %}' method="POST">
+<form action='{% url 'like' discussion.id %}' method="POST">
  {% csrf_token%}
 {%if user.is_authenticated %}
 {%if liked%} 
@@ -22,7 +22,7 @@
 <small><a href="{%url 'login' %}">Login</a> to Like</small>
 {% endif %}
 </form>
--{{total_likes}} Likes   {% endcomment %}
+-{{discussion.likes.count}} Likes    
 
 {% if discussion.posted_by == user %} 
 <button><a href="{% url 'discussion_update' discussion.id %}">Edit</button></a>

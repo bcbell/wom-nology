@@ -19,6 +19,7 @@ urlpatterns= [
 
 #Discussion Pages
     path('discussions/', views.discussionList, name='discussions'),
+    # path('discussions/<int:discussion_id>/', views.discussionDetail, name='discussion_detail'),
     path('discussions/<int:discussion_id>/', views.discussionDetail, name='discussion_detail'),
     path('discussions/create', views.discussionCreate, name='discussions_create'),
     path('discussions/<int:pk>/update/', views.DiscussionUpdate.as_view(), name='discussion_update'),
@@ -33,10 +34,8 @@ urlpatterns= [
     path('search/results/', views.search, name='searchresults'),
 
 #Likes
-    # path('like/<int:pk>', views.Like, name='like'),
+    path('like/<int:pk>', views.like, name='like'),
 
-#Category
-    # path('category/<str:category>/', views.CategoryDetail.as_view(), name='category_detail'),
-    path('discussions/category', views.CategoryListView.as_view(), name='category_list'),
+
 
 ]

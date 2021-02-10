@@ -12,6 +12,7 @@ from django.shortcuts import render, get_object_or_404
 import uuid
 import boto3
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 
 S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com/'
 BUCKET = 'wom-nology'
@@ -26,10 +27,18 @@ def about(request):
 
 @login_required
 def profile(request):
+    replies=Reply.objects.all()
     avatar=Photo.objects.all()
     profile=Profile.objects.all()
-    return render(request, 'account/profile.html', {'profile': profile, 'avatar':avatar})
+    return render(request, 'account/profile.html', {'profile': profile, 'avatar':avatar, 'replies': replies})
 
+def discussionDetail(request, discussion_id):
+    avatar=Photo.objects.all()
+    discussion=Discussion.objects.get(id=discussion_id)
+    total_likes=Discussion.objects.all().count()
+    replies=Reply.objects.exclude(id__in=discussion.replies.all().values_list('id'))
+    reply_form=ReplyForm()
+    return render(request, 'main_app/discussion_detail.html', {"total_likes": total_likes, 'discussion': discussion, 'reply_form': reply_form, 'replies':replies, "avatar": avatar})
 
 @login_required
 def discussionUser(request):
@@ -60,13 +69,6 @@ def discussionList(request):
     avatar=Photo.objects.get()
     posts=Discussion.objects.all()
     return render(request, 'discussions/discussion_list.html', {'posts': posts, "avatar": avatar})
-
-def discussionDetail(request, discussion_id):
-    avatar=Photo.objects.all()
-    discussion=Discussion.objects.get(id=discussion_id)
-    replies=Reply.objects.exclude(id__in=discussion.replies.all().values_list('id'))
-    reply_form=ReplyForm()
-    return render(request, 'main_app/discussion_detail.html', {'discussion': discussion, 'reply_form': reply_form, 'replies':replies, "avatar": avatar})
 
 @login_required
 def discussionCreate(request):
@@ -114,38 +116,10 @@ def search(request):
     else:
         return render(request, 'main_app/search_list.html', {'comments': comments})
 
-
-def categoryListView(request):
-    category= Discussion.objects.all()
-    return render(request,'discussions/category_list.html', {'category': category })
-
-def categoryView(request, category):
-    categories= Discussion.objects.filter('category')
-    return render(request, 'discussions/category_list.html', {'categories': categories, 'category': 
-    category})
-
-   
-class CategoryListView(ListView):
-    model=Discussion
-    fields=['category']
-    template_name='discussions/category_list.html'
-
-# class DiscussionDetail(DetailView):
-#     model=Discussion
-#     fields='__all__'
-
-#     def get_context_data(self, discussion):
-#         like=get_object_or_404(Discussion, id=discussion_id)
-#         total_likes=likes.total_likes
-
-#         liked= False
-#         if like.likes.filter(id=self.id):
-#             liked=True
-        
-#         context['total_likes']= total_likes
-#         context['liked']=liked
-#         return context
-
+def like (request, pk):
+    discussion =get_object_or_404(Discussion, id=request.POST.get('discussion_id'))
+    discussion.likes.add(request.user)
+    return HttpResponseRedirect(reverse('discussion_detail', args=[str(pk)]))
 
 class DiscussionUpdate(UpdateView):
     model=Discussion

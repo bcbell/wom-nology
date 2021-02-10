@@ -1,28 +1,106 @@
 {% extends 'base.html' %}
 {% block content %}
+
+<div class="videoDiscussion">
+     <video class="discussionList" style="width:100% ; height: 100%;" autoplay muted loop>
+        <source src="https://i.imgur.com/njTmRzb.mp4" type="video/mp4">
+    </video>
 <div class= 'discussionList'>
 
-<h1 class="index">WOM-nology Discussion Board</h1>
-<p>
+
+<h4><a class='indexNew' href={%url 'discussions_create'%}>Post a discussion</a> 
+</h4>
+
+<h1 class="discussionList">WOM-nology Discussion Board</h1>
+
 {% if posts %}
-<ul>
-{% for p in posts %}
-    <ol>
-        <a class= "index" href="{% url 'discussion_detail' p.id %}"><h3>{{p}}</h3></a>({{p.category}})
-    {% if p.posted_by == user %} 
-    (<a class="indexChange" href='{% url 'discussion_update' p.id %}'>Edit</a> | <a class='indexChange' href='{% url 'discussion_delete' p.id %}'>Delete</a>)
+
+<div class="discussionListTable">
+
+<table id="myTable" class="discussionList">
+   <tr class="discussionList">
+    <th class="discussionList" onclick="sortTable(0)">Topic</th>
+    <th class="discussionList" onclick="sortTable(1)"> Discussion Author </th>
+    <th class="discussionList" onclick="sortTable(2)">Category</th>
+    <th class="discussionList" onclick="sortTable(3)">Created </th>
+    <th class="discussionList" onclick="sortTable(4)">Likes</th>
+    {% for p in posts %} 
+      <tr class="discussionList"> 
+      <td class="discussionList"><a class= "index" href="{% url 'discussion_detail' p.id %}">{{p.title}}</a>  {% if p.posted_by == user %} 
+    (<a class="indexChange" href='{% url 'discussion_update' p.id %}'>Edit</a> | <a class='indexChange' href='{% url 'discussion_delete' p.id %}'>Delete</a>)</td>
+      <td class="discussionList">{{p.posted_by}}</td>
+      <td class="discussionList">{{p.category}}</td> 
+      <td class="discussionList">{{p.created_at}}</td>
+      <td class="discussionList">{{p.likes.count}}</td>
+    </tr class="discussionList">     
     {% endif%} 
-    </ol>
+  
 {%endfor%}
-</ul>
+
 {%else%}
 
 <h2>There are currently no discussions available</h2>
  {% endif %}
-</p> 
+</div>
 
-<h4><a class='indexNew' href={%url 'discussions_create'%}>Post a discussion</a> 
-</p></h4>
 
 </div>
+</div>
+<script>
+ function sortTable(n) {
+   var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+   table = document.getElementById("myTable");
+   switching = true;
+   //Set the sorting direction to ascending:
+   dir = "asc"; 
+   /*Make a loop that will continue until
+   no switching has been done:*/
+   while (switching) {
+     //start by saying: no switching is done:
+     switching = false;
+     rows = table.rows;
+     /*Loop through all table rows (except the
+     first, which contains table headers):*/
+     for (i = 1; i < (rows.length - 1); i++) {
+       //start by saying there should be no switching:
+       shouldSwitch = false;
+       /*Get the two elements you want to compare,
+       one from current row and one from the next:*/
+       x = rows[i].getElementsByTagName("TD")[n];
+       y = rows[i + 1].getElementsByTagName("TD")[n];
+       /*check if the two rows should switch place,
+       based on the direction, asc or desc:*/
+       if (dir == "asc") {
+         if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+           //if so, mark as a switch and break the loop:
+           shouldSwitch= true;
+           break;
+         }
+       } else if (dir == "desc") {
+         if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+           //if so, mark as a switch and break the loop:
+           shouldSwitch = true;
+           break;
+         }
+       }
+     }
+     if (shouldSwitch) {
+       /*If a switch has been marked, make the switch
+       and mark that a switch has been done:*/
+       rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+       switching = true;
+       //Each time a switch is done, increase this count by 1:
+       switchcount ++;      
+     } else {
+       /*If no switching has been done AND the direction is "asc",
+       set the direction to "desc" and run the while loop again.*/
+       if (switchcount == 0 && dir == "asc") {
+         dir = "desc";
+         switching = true;
+       }
+     }
+   }
+ }
+ </script>
 {%endblock%}
+
