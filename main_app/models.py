@@ -168,7 +168,7 @@ class Profile(models.Model):
     updated_at=models.DateTimeField(auto_now=True)
     discussions=models.ManyToManyField(Discussion, related_name='posts')
     replies= models.ManyToManyField(Reply, related_name='replies')
-    avatar=models.ForeignKey(Photo, on_delete=models.CASCADE, related_name='pic', null=True)
+    # avatar=models.ForeignKey(Photo, on_delete=models.CASCADE, related_name='pic', null=True)
     linkedin_url=models.CharField(max_length=255, null=True, blank=True)
     facebook_url=models.CharField(max_length=255, null=True, blank=True)
     twitter_url=models.CharField(max_length=255, null=True, blank=True)
