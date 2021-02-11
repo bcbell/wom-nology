@@ -16,7 +16,7 @@ environ.Env()
 environ.Env.read_env()
 
 import django_on_heroku
-django_on_heroku.settings(locals())
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'crispy_forms',
-    # 'ckeditor',
+    'ckeditor',
     
 ]
 
@@ -136,19 +136,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-# STATIC_ROOT =  os.path.join(BASE_DIR, 'static').
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# STATIC_URL = '/static/'
-# # STATICFILES_DIRS = (
-# #     os.path.join(BASE_DIR, 'static'),
-# # )
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
+django_on_heroku.settings(locals())
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 LOGIN_REDIRECT_URL='/accounts/profile'
 
