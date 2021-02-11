@@ -16,7 +16,7 @@ class UserForm(UserCreationForm):
 class ProfileForm(forms.ModelForm): 
     class Meta:
         model= Profile
-        fields=[ 'first_name','last_name', 'email',  'location', 'it_area', 'linkedin_url', 'facebook_url', 'twitter_url','website_url','bio']
+        fields=[ 'first_name','last_name', 'email',  'location', 'it_area', 'bio']
 
 class ReplyForm(ModelForm):
     class Meta:
