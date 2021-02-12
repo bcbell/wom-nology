@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond&display=swap');
 
+/* * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }  */
 body{
     background-color: white;
     font-family: 'Cinzel', serif;
@@ -8,6 +13,9 @@ body{
     background-position: unset;
     background-size: cover;
     background-repeat: no-repeat;
+    overflow-x: hidden; 
+    left: 0;
+    overflow-x: hidden
 }
 
 button{
@@ -62,8 +70,18 @@ h2.signup{
     font-variant: small-caps;
     font-size: 50px;
 }
-/* Home Page */
-
+/* Search */
+.containerSearch {
+    padding: 0 50px;
+    display: flex;
+    flex-flow: column wrap;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
 
 /* About Page */
 div.about{
@@ -97,26 +115,41 @@ div.aboutSection{
     text-shadow: black .5px .5px;
 }
 /* Profile */
+
+.containerProfile {
+    padding: 0 50px;
+    display: flex;
+    flex-flow: column wrap;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+
 div.profile{
     margin: 20px;
 }
 h1.profile{
     text-align: center;
 }
+.profile-header {
+    background: #fff;
+    width: 100%;
+    display: flex;
+    height: 190px;
+    position: relative;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.2);
+  }
+  
 .profile-img {
     float: left;
     width: 340px;
     height: 200px;
   }
-  .profile-header {
-    background: #fff;
-    width: 100%;
-    display: flex;
-    height: 200px;
-    position: relative;
-    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.2);
-  }
-  .profile-img img {
+  
+.profile-img img {
     border-radius: 50%;
     height: 230px;
     width: 230px;
@@ -128,7 +161,33 @@ h1.profile{
     z-index: 5;
     background: #fff;
   }
-  .profile-option {
+  
+.profile-nav-info {
+    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 60px;
+  }
+  
+.profile-nav-info h3 {
+    font-variant: small-caps;
+    font-size: 2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: bold;
+  }
+  
+.profile-nav-info .address {
+    display: flex;
+    font-weight: bold;
+    color: #777;
+  }
+  
+.profile-nav-info .address p {
+    margin-right: 5px;
+  }
+  
+.profile-option {
     width: 40px;
     height: 40px;
     position: absolute;
@@ -142,15 +201,55 @@ h1.profile{
     cursor: pointer;
     transition: all 0.5s ease-in-out;
     outline: none;
-    background: #e40046;
+    background: #cc3487;
   }
-  .main-bd {
+  
+.profile-option:hover {
+    background: #fff;
+    border: 1px solid #cc3487;
+  }
+  .profile-option:hover .notification i {
+    color: #cc3487;
+  }
+  
+.profile-option:hover span {
+    background: #cc3487;
+  }
+  
+.profile-option .notification i {
+    color: #fff;
+    font-size: 1.2rem;
+    transition: all 0.5s ease-in-out;
+  }
+  
+.profile-option .notification .alert-message {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #fff;
+    color: #cc3487;
+    border: 1px solid #cc3487;
+    padding: 5px;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+  
+.main-bd {
     width: 100%;
     display: flex;
     padding-right: 15px;
   }
+a.profile{
+    color: #cc3487;
+  }
   
-  .profile-side {
+.profile-side {
     width: 300px;
     background: #fff;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
@@ -160,32 +259,30 @@ h1.profile{
     z-index: 99;
   }
   
-  .profile-side p {
+.profile-side p {
     margin-bottom: 7px;
     color: #333;
     font-size: 14px;
   }
   
-  .profile-side p i {
-    color: #e40046;
+.profile-side p i {
+    color: #cc3487;
     margin-right: 10px;
   }
-  .mobile-no i {
+  
+.mobile-no i {
     transform: rotateY(180deg);
-    color: #e40046;
+    color: #cc3487;
   }
   
-  .profile-btn {
+.profile-btn {
     display: flex;
   }
-  
-  button.chatbtn,
-  button.createbtn {
+button.uploadingbtn{
     border: 0;
     padding: 10px;
-    width: 100%;
     border-radius: 3px;
-    background: #e40046;
+    background: #cc3487;
     color: #fff;
     font-family: "Bree Serif";
     font-size: 1rem;
@@ -196,7 +293,25 @@ h1.profile{
     transition: background 0.3s ease-in-out;
     box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.3);
   }
-  
+
+  button.chatbtn,
+  button.createbtn {
+    border: 0;
+    padding: 10px;
+    width: 100%;
+    border-radius: 3px;
+    background: #cc3487;
+    color: #fff;
+    font-family: "Bree Serif";
+    font-size: 1rem;
+    margin: 5px 2px;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 10px;
+    transition: background 0.3s ease-in-out;
+    box-shadow: 0px 5px 7px 0px rgba(0, 0, 0, 0.3);
+  }
+  button.uploadingbtn:hover
   button.chatbtn:hover,
   button.createbtn:hover {
     background: rgba(288, 0, 70, 0.9);
@@ -221,15 +336,6 @@ h1.profile{
   
   .user-rating .no-of-user-rate {
     font-size: 0.9rem;
-  }
-  
-  .rate {
-    padding-top: 6px;
-  }
-  
-  .rate i {
-    font-size: 0.9rem;
-    color: rgba(228, 0, 70, 1);
   }
   
   .nav {
@@ -262,6 +368,8 @@ h1.profile{
   .profile-body {
     width: 100%;
     z-index: -1;
+    font-family: "Bree Serif";
+
   }
   
   .tab {
@@ -274,11 +382,11 @@ h1.profile{
     text-align: center;
   }
   
-  @media (max-width: 1100px) {
-    .profile-side {
+   @media (max-width: 1100px) {
+     .profile-side {
       width: 250px;
       padding: 90px 15px 20px;
-    }
+    } 
   
     .profile-img img {
       height: 200px;
@@ -288,260 +396,111 @@ h1.profile{
     }
   }
   
-/* Discussion List Page */
-video.discussionList{
-    height: 100%;
-    width: 100%;
-}
-div.videoDiscussion{
-    width:100%;
-    max-width: 100%;
-    margin: auto;
-    display: block;
-    position: relative;
-}
-div.discussionListTable{
-      /* margin: 30px; */
-      position: absolute;
-      top: 0;
-      left: 0;
+  @media (max-width: 900px) {
+    body {
+      margin: 0 20px;
+    }
+  
+    .profile-header {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
       height: 100%;
-    
-           
-  }
-table.discussionList {
-   border-spacing: 0;
-   width: 100%;
-   outline: #e241a4 2px solid;
-   background-color: rgba(71, 71, 71, 0.438);
- }
- 
- th.discussionList {
-   cursor: pointer;
-   border-bottom: white 3px solid;
- }
- 
- th.discussionList, td.discussionList {
-   text-align: left;
-   padding: 20px;
-   color: white;
-   font-size: 20px;
-   font-weight: bold;
- }
-
-tr.discussionList:nth-child(even) {
-   background-color: #e241a4;
-} 
-tr.discussionList:nth-child(odd) {
-    /* background-color: #9cdd73c4; */
-    background-color: rgba(250, 238, 238, 0.63);
-} 
-a.index{
-    color: white;
-}
-h1.discussionList{
-    font-family: 'Cormorant Garamond', serif;
-    text-align: center;
-    border-bottom: grey 2px solid;
-    background-color: rgba(250, 238, 238, 0.63);
-    outline: #e241a4 2px solid;
-    color: white;
-    text-shadow: black 2px 2px;
-    position: absolute;
-    top: 0;
-    /* left: 0; */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    /* height: 100%;  */
-}
-
-
-Test
-  
-   body {
-    position: absolute;
-    /* top: 0; */
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-   } 
-  
-  .container {
-    padding: 0 50px;
-    display: flex;
-    flex-flow: column wrap;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 75%;
-  }
-  
-  .topic-title {
-    border-top: 2px solid #ca3dd7af;
-    border-bottom: 2px solid #ca3dd7af;
-    padding: 5px 10px;
-    display: flex;
-    font-size: 18px;
-    color: white;
-    background: #c03f75c7;
-    
-  }
-  
-  .tt-title {
-    flex: 4;
-  }
-  
-  .tt-topic {
-    flex: 1;
-    text-align: center;
-  }
-  
-  .tt-post {
-    flex: 1;
-    text-align: center;
-  }
-  
-  .tt-l-post {
-    flex: 2;
-    text-align: center;
-  }
-  
-  .topic-content {
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.712);
-    padding: 10px;
-    font-size: 14px;
-    color: #468499;
-    border-bottom: 1px solid #3da1d7;
-  }
-  
-  .tc-description {
-    flex: 4;
-  }
-  
-  .d-title {
-    color: #3da1d7;
-    font-size: 16px;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  .d-description {
-    margin-bottom: 10px;
-  }
-  
-  .mobile-info {
-    display: none;
-  }
-  
-  .tc-topic {
-    flex: 1;
-    text-align: center;
-  }
-  
-  .tc-post {
-    flex: 1;
-    text-align: center;
-  }
-  
-  .tc-l-post {
-    flex: 2;
-  }
- 
-  #like{
-      font-size: 20px;
-  }
-  
-  @media all and (max-width: 710px) {
-    .tt-topic, .tt-post, .tt-l-post, .tc-topic, .tc-post,.tc-l-post {
-      display: none;
+      flex-direction: column;
+      text-align: center;
+      padding-bottom: 20px;
     }
-    
-    .mobile-info {
-      display: flex;
-      flex-flow: row;
-      justify-content: flex-end;
-      text-align: right;
+  
+    .profile-img {
+      float: left;
+      width: 100%;
+      height: 200px;
     }
-    
-    .mi-topics, .mi-posts, .mi-lpost {
-          margin-right: 20px;
-    }  
+  
+    .profile-img img {
+      position: relative;
+      height: 200px;
+      width: 200px;
+      left: 0px;
+    }
+  
+    .profile-nav-info {
+      text-align: center;
+    }
+  
+    .profile-option {
+      right: 20px;
+      top: 75%;
+      transform: translateY(50%);
+    }
+  
+    .main-bd {
+      flex-direction: column;
+      padding-right: 0;
+    }
+  
+    .profile-side {
+      width: 100%;
+      text-align: center;
+      padding: 20px;
+      margin: 5px 0;
+    }
+  
+    .profile-nav-info .address {
+      justify-content: center;
+    }
+  
+    .user-rating {
+      justify-content: center;
+    }
   }
   
-
-/* Create Discussion Post Page */
-div.createDiscussion{
-   background-color: rgba(255, 0, 255, 0.568);
-}
-h1.createDiscussionHeader{
-    font-family: 'Cormorant Garamond', serif;
-    text-align: center;
-    border-bottom: grey 2px solid;
-    background-color: rgba(250, 238, 238, 0.63);
-    outline: #e241a4 2px solid;
-    color: white;
-    text-shadow: black 2px 2px;
-    
-}
-
-/* Discussion Details Page */
-div.discussionDetails{
-    background-color: rgba(255, 0, 255, 0.568);
-    color: white;
-}
-span.discussionDetails{
-    font-size: 25px;
-    font-family: 'Cormorant Garamond', serif;   
-}
-p.discussionDetails{
-    font-family: 'Cormorant Garamond', serif; 
-    font-size: 20px;
-}
-
-/* User Discussion Page */
-div.userDiscussions{
-    background-color: rgba(29, 109, 65, 0.787);
-}
-a.userDiscussion{
-    color: white;
-}
-h1.userDiscussion{
-    font-family: 'Cormorant Garamond', serif;
-    text-align: center;
-    border-bottom: grey 2px solid;
-    background-color: rgba(250, 238, 238, 0.63);
-    outline: #e241a4 2px solid;
-    color: white;
-    text-shadow: black 2px 2px;
-}
-
-/* Footer */
-div.footer{
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: fixed;
-    text-align: right;
-
-}
-
-
-@media (max-width: 900px) {
+  @media (max-width: 400px) {
+    /* body {
+      margin: ;
+    }
+  
+    .profile-header h3 {
+    }
+   */
+    .profile-option {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      right: 15px;
+      top: 83%;
+    }
+  
+    .profile-option .notification .alert-message {
+      top: -3px;
+      right: -4px;
+      padding: 4px;
+      height: 15px;
+      width: 15px;
+      font-size: 0.7rem;
+    }
+  
+    .profile-nav-info h3 {
+      font-size: 1.9rem;
+    }
+  
+    .profile-nav-info .address p,
+    .profile-nav-info .address span {
+      font-size: 0.7rem;
+    }
+  }
+  #see-more-bio,
+  #see-less-bio {
+    color: blue;
+    cursor: pointer;
+    text-transform: lowercase;
+  }
+  .tab h1 {
+    font-family: "Bree Serif", sans-serif;
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+  }
+   
+  @media (max-width: 900px) {
     body {
       margin: 0 20px;
     }
@@ -639,3 +598,217 @@ div.footer{
     margin: 20px auto;
   }
   
+  
+/* Discussion List Page */
+
+  /* body.discussionList {
+    position: absolute; 
+    top: 0; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+   }    */
+
+video.discussionList{
+    height: 100%;
+    width: 100%;
+}
+div.videoDiscussion{
+    width:100%;
+    max-width: 100%;
+    margin: auto;
+    display: block;
+    position: fixed;
+}
+  div.discussionList{
+    margin: 30px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+      
+  }
+
+a.index{
+    color: white;
+}
+div.title{
+    border-top: 2px solid #ca3dd7af;
+    border-bottom: 2px solid #ca3dd7af;
+    padding: 5px 10px;
+    display: flex;
+    font-size: 18px;
+    color: white;
+    background: #c03f75c7;
+}
+
+  .containerDiscussionList{
+    padding: 0 50px;
+    display: flex;
+    flex-flow: column wrap;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .topic-title {
+    border-top: 2px solid #ca3dd7af;
+    border-bottom: 2px solid #ca3dd7af;
+    padding: 5px 10px;
+    display: flex;
+    font-size: 18px;
+    color: white;
+    background: #c03f75c7;
+    
+  }
+  
+  .tt-title {
+    flex: 4;
+  }
+  
+  .tt-topic {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .tt-post {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .tt-l-post {
+    flex: 2;
+    text-align: center;
+  }
+  
+  .topic-content {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.712);
+    padding: 10px;
+    font-size: 14px;
+    color: #468499;
+    border-bottom: 1px solid #3da1d7;
+  }
+  
+  .tc-description {
+    flex: 4;
+  }
+  
+  .d-title {
+    color: #3da1d7;
+    font-size: 16px;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .d-description {
+    margin-bottom: 10px;
+  }
+  
+  .mobile-info {
+    display: none;
+  }
+  
+  .tc-topic {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .tc-post {
+    flex: 1;
+    text-align: center;
+  }
+  
+  .tc-l-post {
+    flex: 2;
+  }
+ 
+  #like{
+      font-size: 20px;
+  }
+  
+  @media all and (max-width: 710px) {
+    .tt-topic, .tt-post, .tt-l-post, .tc-topic, .tc-post,.tc-l-post {
+      display: none;
+    }
+    
+    .mobile-info {
+      display: flex;
+      flex-flow: row;
+      justify-content: flex-end;
+      text-align: right;
+    }
+    
+    .mi-topics, .mi-posts, .mi-lpost {
+          margin-right: 20px;
+    }  
+  }
+   
+
+/* Create Discussion Post Page */
+div.createDiscussion{
+   background-color: rgba(255, 0, 255, 0.568);
+}
+h1.createDiscussionHeader{
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    border-bottom: grey 2px solid;
+    background-color: rgba(250, 238, 238, 0.63);
+    outline: #e241a4 2px solid;
+    color: white;
+    text-shadow: black 2px 2px;
+    
+}
+
+/* Discussion Details Page */
+div.discussionDetails{
+    background-color: rgba(255, 0, 255, 0.568);
+    color: white;
+}
+span.discussionDetails{
+    font-size: 25px;
+    font-family: 'Cormorant Garamond', serif;   
+}
+p.discussionDetails{
+    font-family: 'Cormorant Garamond', serif; 
+    font-size: 20px;
+}
+
+/* User Discussion Page */
+div.userDiscussions{
+    background-color: rgba(29, 109, 65, 0.787);
+}
+a.userDiscussion{
+    color: white;
+}
+h1.userDiscussion{
+    font-family: 'Cormorant Garamond', serif;
+    text-align: center;
+    border-bottom: grey 2px solid;
+    background-color: rgba(250, 238, 238, 0.63);
+    outline: #e241a4 2px solid;
+    color: white;
+    text-shadow: black 2px 2px;
+}
+
+/* Footer */
+div.footer{
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    text-align: right;
+
+}
+
+

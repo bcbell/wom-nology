@@ -27,10 +27,10 @@ AREAS=(
         ('IT Specialist', 'IT Specialist'),
         ('IT Training', 'IT Training'),
         ('Network', 'Network'),
-        ('Software Developer', 'Software Developer'),
+        ('Software Development', 'Software Development'),
         ('Software Management', 'Software Management'),
         ('Software Quality', 'Software Quality'),
-        ('System Administator', 'System Administator'),
+        ('System Administation', 'System Administation'),
         ('System Analyst', 'System Analyst'),  
     )
 STATE_CHOICES = (

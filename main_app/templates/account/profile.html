@@ -2,17 +2,19 @@
 {%load humanize%}
 {% block content %}
 
-<div class="container">
+<div class="containerProfile">
   <div class="profile-header">
     <div class="profile-img">
-    
-       <img src="https://i.imgur.com/XqWJSpA.png" width="200" width="200" alt="Profile Image">
+      <img src="https://i.imgur.com/XqWJSpA.png" width="200" alt="Profile Image">
     </div>
     <div class="profile-nav-info">
       <h3 class="user-name">{{user.profile.first_name}} {{user.profile.last_name}}</h3>
       <div class="address">
-        <p id="state" class="state">Location:{{user.profile.location}}</p>
-        <span id="country" class="country">Area of Tech Specialization: {{user.profile.it_area}}</span>
+        <p id="state" class="state">Location: {{user.profile.location}}, </p>
+        <span id="country" class="country">USA.</span>
+      </div>
+       <div class="address">
+        <p id="state" class="state">Area of Tech Specialization: {{user.profile.it_area}}</p>
       </div>
 
     </div>
@@ -23,17 +25,15 @@
       </div>
     </div>
   </div>
+
   <div class="main-bd">
     <div class="left-side">
       <div class="profile-side">
-        <p class="mobile-no"><i class="fa fa-phone"></i>Phone: +23470xxxxx700</p>
-        <p class="user-mail"><i class="fa fa-envelope"></i> Email :{{user.profile.email}}</p>
-             <form action="{% url 'profile' %}" enctype="multipart/form-data" method="POST" class="profile">
-    {% csrf_token %}
-    <input type="file" name="photo-file">
-    <br><br>
-    <button type="submit" class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Upload Photo</button>
-</form>
+        <p class="user-mail"><i class="fa fa-envelope"></i> Email : {{user.profile.email}}</p>
+        <p class="mobile-no"><i class="fa fa-phone"></i> LinkedIn: {{user.profile.linkedin_url}}</p>
+        <p class="mobile-no"><i class="fa fa-phone"></i> Facebook: {{user.profile.facebook_url}}</p>
+        <p class="mobile-no"><i class="fa fa-phone"></i> Twitter: {{user.profile.twitter_url}}</p>
+        <p class="mobile-no"><i class="fa fa-phone"></i> Website: {{user.profile.website_url}}</p>
         <div class="user-bio">
           <h3>Bio</h3>
           <p class="bio">
@@ -42,45 +42,66 @@
         </div>
         <div class="profile-btn">
           <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Chat</button>
-          <button class="createbtn" id="Create-post"><i class="fa fa-plus"></i> <a class='userDiscussion' href={%url 'discussions_create'%}>Post a discussion</a> </button>
+          <button class="createbtn" id="Create-post"><i class="fa fa-plus"></i> Create</button>
         </div>
         <div class="user-rating">
-          <h3 class="rating">4.5</h3>
-          <div class="rate">
-            <div class="star-outer">
-              <div class="star-inner">
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-                <i class="fa fa-star"></i>
-              </div>
-            </div>
-            <span class="no-of-user-rate"><span>0</span>&nbsp;&nbsp;Discussion Replies</span>
-          </div>
-
+           <form action="{% url 'profile' %}" enctype="multipart/form-data" method="POST" class="profile">
+            {% csrf_token %}
+            <input type="file" name="photo-file">
+            <br><br>
+            <button type="submit" class="uploadingbtn" id="uploadingBtn">Upload Photo</button>
+        </form>
         </div>
       </div>
-
     </div>
     <div class="right-side">
 
       <div class="nav">
         <ul>
           <li onclick="tabs(0)" class="user-post active">Posts</li>
-          <li onclick="tabs(1)" class="user-review">Reviews</li>
+          <li onclick="tabs(1)" class="user-review"> Replies</li>
           <li onclick="tabs(2)" class="user-setting"> Settings</li>
         </ul>
       </div>
       <div class="profile-body">
         <div class="profile-posts tab">
-          <h1>Your Post</h1>
-         {% if posts %}
+         <p>
+{{post}}
+
+{% if posts %}
 
 <ul>
 {% for p in posts %}
     <ol>
-        <a class= "userDiscussion" href="{% url 'discussion_detail' p.id%}"><h3>{{p}}</h3></a>
+        <a class= "profile" href="{% url 'discussion_detail' p.id%}"><h3>{{p}}</h3></a>
+        {% if p.posted_by == user %} 
+        (<a class="profile" href='{% url 'discussion_update' p.id %}'>Edit</a> | <a class='profile' href='{% url 'discussion_delete' p.id %}'>Delete</a>)
+        {% endif%} 
+    </ol>
+        {%endfor%}
+    </ul>
+    {%else%}
+
+    <p> You have not posted any discussions</p>
+ {% endif %}
+
+ 
+
+
+</p> 
+
+<a class='userDiscussion' href={%url 'discussions_create'%}>Post a discussion</a> 
+</p>
+
+        </div>
+        <div class="profile-reviews tab">
+         <p>
+{% if replies == user %}
+
+<ul>
+{% for pr in replies %}
+    <ol>
+        <a class= "userDiscussion" href="{% url 'discussion_detail' p.id%}"><h3>{{pr}}</h3></a>
     {% if p.posted_by == user %} 
     (<a class="userDiscussion" href='{% url 'discussion_update' p.id %}'>Edit</a> | <a class='userDiscussion' href='{% url 'discussion_delete' p.id %}'>Delete</a>)
     {% endif%} 
@@ -89,32 +110,17 @@
 </ul>
 {%else%}
 
-    <p>You do not have any discussions available</p>
+    <p>You have not replied to any discussions </p>
  {% endif %}
 </p> 
 
+<a class='userDiscussion' href={%url 'discussions'%}>Discussion Board</a> 
 </p>
-        </div>
-        <div class="profile-reviews tab">
-          <h1>Your Replies to Post</h1>
-          {% for pr in replies %}
-          {% if pr.author == user %} 
-          
-      <p>    
-    <ul>
-    
-       {{pr.post | safe}}</a>(Created at: {{pr.created_at}}) 
-        
-    </ul>
-    </p>
-{%endif%}
-
-{%endfor%}
 
         </div>
         <div class="profile-settings tab">
           <div class="account-setting">
-            <h1>Account Setting</h1>
+            <h1>Acount Setting</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit omnis eaque, expedita nostrum, facere libero provident laudantium. Quis, hic doloribus! Laboriosam nemo tempora praesentium. Culpa quo velit omnis, debitis maxime, sequi
               animi dolores commodi odio placeat, magnam, cupiditate facilis impedit veniam? Soluta aliquam excepturi illum natus adipisci ipsum quo, voluptatem, nemo, commodi, molestiae doloribus magni et. Cum, saepe enim quam voluptatum vel debitis
               nihil, recusandae, omnis officiis tenetur, ullam rerum.</p>
@@ -123,7 +129,7 @@
       </div>
     </div>
   </div>
-
+</div>
 
 
 

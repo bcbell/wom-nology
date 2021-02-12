@@ -29,8 +29,9 @@ def about(request):
 def profile(request):
     replies=Reply.objects.all()
     avatar=Photo.objects.all()
+    posts=Discussion.objects.filter(posted_by=request.user)
     profile=Profile.objects.all()
-    return render(request, 'account/profile.html', {'profile': profile, 'avatar':avatar, 'replies': replies})
+    return render(request, 'account/profile.html', {'profile': profile, 'avatar':avatar, 'replies': replies, 'posts':posts})
 
 def discussionDetail(request, discussion_id):
     avatar=Photo.objects.all()
