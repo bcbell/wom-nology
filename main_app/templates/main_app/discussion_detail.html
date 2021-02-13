@@ -2,79 +2,43 @@
 {% load humanize%}
 {% block content %}
 
+ <div class="videoDiscussionDetail">
+     <video class="discussionDetail" style="width:100% ; height: 100%;" autoplay muted loop>
+        <source src="https://i.imgur.com/njTmRzb.mp4" type="video/mp4">
+    </video> 
+
+<div class='discussionCommentsDetails'>
+
+<div class='discussionComment'>
 
 <div class='discussionDetails'>
-    <h1>Discussion on {{discussion.title}}</h1>  
+    <div><h2>Topic :{{discussion.title}}</h2>
+    <form action='{% url 'like' discussion.id %}' method="POST">
+        {% csrf_token%}
+        {%if user.is_authenticated %}
+        {%if liked%} 
+        <button type= 'submit' value='{{discussion.id}}' name=like>Unlike</button>
+        {%else%}
+        <button type= 'submit' value='{{discussion.id}}' name='discussion_id' >{{discussion.likes.count}} <i id="like" class="bi bi-hand-thumbs-up"></i></button>
+        {%endif%}
+        {%else%}
+        <small><a href="{%url 'login' %}">Login</a> to Like</small>
+        {% endif %}
+    </form>
+ </div>   
+<br/> 
     <h4>Created by:<a href="{% url 'profile'%}"> {{discussion.posted_by}}</a></h4>
-    <span class='discussionDetails'>Post: {{discussion.post}}</span>
-    {% if discussion.posted_by == user %} 
-<button><a href="{% url 'discussion_update' discussion.id %}">Edit</button></a>
-<button><a href="{% url 'discussion_delete' discussion.id%}">Delete</button></a>
-{% endif %} 
-<br>
-
-<p><i id="like" class="bi bi-hand-thumbs-up"></i> {{discussion.likes.count}} </p>  
-<form action='{% url 'like' discussion.id %}' method="POST">
- {% csrf_token%}
-{%if user.is_authenticated %}
-{%if liked%} 
- <button type= 'submit' value='{{discussion.id}}' name=like>Unlike</button>
-{%else%}
-<button type= 'submit' value='{{discussion.id}}' name='discussion_id'>Like</button>
-{%endif%}
-{%else%}
-<small><a href="{%url 'login' %}">Login</a> to Like</small>
-{% endif %}
-</form>
-  
-
-
-<hr>
-</div>
-
-<h2 class='discussionDetails'>Comments...</h2>
-
-
-{% comment %} Reply Section {% endcomment %}
-{% comment %} Reply Form {% endcomment %}
-
-
-<div class='commentSection'>
-{% if discussion.replies.id == None %}
-
-{% for reply in replies %}
-
-<p class='discussionDetails'>
-
-
-{% for photo in avatar%}
-{%if photo.user.id == reply.author.id %}
-<img style='width: 100px; height:100px; margin-top:50x; border: 3px solid black;' src="{{photo.url}}">
-{%endif%} 
-{%endfor%} 
-
-{{reply.post | safe}}  
-<strong> {{reply}}| ({{reply.updated_at | naturaltime}}) </strong>
-
-    {% if reply.author == user %}
-    <button>
-        <a href="{% url 'discussion_reply_update' reply.id%}" >Edit</a>
-    </button> 
-    <button><a href="{% url 'reply_delete' reply.id%}">Delete</button></a>
-     {%endif%}
+    ({{discussion.replies.count}} comments)
     <hr>
-</p>
-     
+    <span class='discussionDetails'>Discussion Post: {{discussion.post}}</span>
+    {% if discussion.posted_by == user %} 
+    <button><a href="{% url 'discussion_update' discussion.id %}">Edit</button></a>
+    <button><a href="{% url 'discussion_delete' discussion.id%}">Delete</button></a>
+    {% endif %} 
 <br>
-{%endfor%}
+<br>
 
- {%else%} 
 
-<h5 class='discussionDetails'>Be the first to reply...</h5>
-
-{% endif%} 
-
-</br>
 {% comment %} Comment Form {% endcomment %}
 <form method='POST' action="{% url 'add_reply' discussion.id %}"> 
     {%csrf_token %}
@@ -84,7 +48,49 @@
     <button><a href="{% url 'discussion_detail' discussion.id %}" >Cancel</button></a> 
 </form>
 
+</div>
+
+{% comment %} Reply Section {% endcomment %}
+<div >
+    <h2 class='discussionDetails'>Comments...</h2>
+<div class='commentSection'>
+
+<br>
+{%if replies%}
+{% for reply in replies %}
+{% if reply.discussion.id  == discussion.id %}
+<p class='discussionDetails'>
+
+{% for photo in avatar%}
+{%if photo.user.id == reply.author.id %}
+<img style='width: 100px; height:100px; margin-top:50x; border: 3px solid black;' src="{{photo.url}}">
+{%endif%} 
+{%endfor%} 
+
+{{reply.post | safe}}  
+<br/>
+<strong> ({{reply}})| ({{reply.updated_at | naturaltime}}) </strong>
+
+    {% if reply.author == user %}
+    <button>
+        <a href="{% url 'discussion_reply_update' reply.id%}" >Edit</a>
+    </button> 
+    <button><a href="{% url 'reply_delete' reply.id%}">Delete</button></a>
+     {%endif%}
+   
+</p>
+ 
+  
+{% comment %} <br> {% endcomment %}
+
+{%endif%}
+{% endfor%}   
+ {%else%} 
+ <h5 class='discussionDetails'>Be the first to reply...</h5>
+ {%endif%}
 
 
+</div>
+</div>
 
 {% endblock %}

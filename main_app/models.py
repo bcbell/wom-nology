@@ -102,27 +102,6 @@ CATEGORY_CHOICES=(
 
 
 
-class Reply(models.Model):
-    post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
-    # post=RichTextField(blank=True, null=True)
-    author=models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_author')
-    created_at= models.DateTimeField(auto_now_add=True)
-    updated_at= models.DateTimeField(auto_now=True)
-    likes=models.ManyToManyField(User, related_name='reply_post')
-    
-    def get_absolute_url(self):
-        return reverse("discussion_detail", kwargs={"pk": self.pk})
-    
-
-    def __str__(self):
-        return str(self.author)
-
-    def total_likes(self):
-        return self.likes.count()
-
-    class Meta:
-        ordering=['-created_at']
-
 
 class Discussion(models.Model):
     title= models.CharField(max_length= 500, validators=[MinLengthValidator(3, "Please create a title greater than 3 characters")])
@@ -133,7 +112,7 @@ class Discussion(models.Model):
     created_at= models.DateTimeField(auto_now_add=True)
     updated_at= models.DateTimeField(auto_now=True)
     likes =models.ManyToManyField(User, related_name='discussion_post')
-    replies= models.ManyToManyField(Reply, related_name='reply')
+    replies= models.ManyToManyField(User, through='Reply', related_name='reply')
     
 
     def __str__(self):
@@ -145,7 +124,37 @@ class Discussion(models.Model):
     def total_likes(self):
         return self.likes.count()
 
+    def total_comments(self):
+        return self.replies.count()
 
+
+
+    class Meta:
+        ordering=['-created_at']
+
+
+class Reply(models.Model):
+    post=models.TextField(validators=[MinLengthValidator(2, "Please submit a reply of with at least 2 characters")])
+    # post=RichTextField(blank=True, null=True)
+    author=models.ForeignKey(User, on_delete=models.CASCADE, related_name='comment_author')
+    created_at= models.DateTimeField(auto_now_add=True)
+    updated_at= models.DateTimeField(auto_now=True)
+    likes=models.ManyToManyField(User, related_name='reply_post')
+    discussion=models.ForeignKey(Discussion, on_delete=models.CASCADE, related_name='discussions')
+    
+    def get_absolute_url(self):
+        return reverse("discussion_detail", kwargs={"pk": self.pk})
+    
+
+    def __str__(self):
+        return str(self.author)
+
+    def total_likes(self):
+        return self.likes.count()
+
+    def total_comments(self):
+        return self.replies.count()
+    
     class Meta:
         ordering=['-created_at']
 

@@ -36,10 +36,9 @@ def profile(request):
 def discussionDetail(request, discussion_id):
     avatar=Photo.objects.all()
     discussion=Discussion.objects.get(id=discussion_id)
-    total_likes=Discussion.objects.all().count()
-    replies=Reply.objects.exclude(id__in=discussion.replies.all().values_list('id'))
+    replies=Reply.objects.filter().order_by('-updated_at')
     reply_form=ReplyForm()
-    return render(request, 'main_app/discussion_detail.html', {"total_likes": total_likes, 'discussion': discussion, 'reply_form': reply_form, 'replies':replies, "avatar": avatar})
+    return render(request, 'main_app/discussion_detail.html', {'discussion': discussion, 'reply_form': reply_form, 'replies':replies, "avatar": avatar})
 
 @login_required
 def discussionUser(request):
