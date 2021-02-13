@@ -92,7 +92,10 @@ div.about{
     background-color: rgba(69, 136, 99, 0.726);
 }
 img.aboutImage{
-   margin: 30px;
+   margin-top: 30px;
+}
+div.aboutImage{
+    margin-left: 30px;
 }
 div.aboutBody{
     display: flex;
