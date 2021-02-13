@@ -625,8 +625,7 @@ div.videoDiscussion{
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
-      
+    height: 100%;  
   }
 
 a.index{
@@ -657,7 +656,7 @@ div.title{
   .topic-title {
     border-top: 2px solid #ca3dd7af;
     border-bottom: 2px solid #ca3dd7af;
-    padding: 5px 10px;
+    padding: 10px 10px;
     display: flex;
     font-size: 18px;
     color: white;
@@ -667,28 +666,42 @@ div.title{
   
   .tt-title {
     flex: 4;
+    text-align: center; 
+    padding-left: 10px;
+    padding-right: 10px;
   }
   
   .tt-topic {
     flex: 1;
-    text-align: center;
+    text-align: center; 
+     padding-left: 10px; 
+     padding-right: 10px;
   }
-  
+  .tt-category{
+    flex:2;
+    padding-left: 100px; 
+    padding-right: 10px;
+      
+  }
   .tt-post {
     flex: 1;
     text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   
   .tt-l-post {
     flex: 2;
     text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   
   .topic-content {
     display: flex;
     align-items: center;
     background: rgba(255, 255, 255, 0.712);
-    padding: 10px;
+    padding: 20px;
     font-size: 14px;
     color: #468499;
     border-bottom: 1px solid #3da1d7;
@@ -716,6 +729,8 @@ div.title{
   .tc-topic {
     flex: 1;
     text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   
   .tc-post {
@@ -732,7 +747,7 @@ div.title{
   }
   
   @media all and (max-width: 710px) {
-    .tt-topic, .tt-post, .tt-l-post, .tc-topic, .tc-post,.tc-l-post {
+    .tt-topic,.tt-category, .tt-post, .tt-l-post, .tc-topic, .tc-post,.tc-l-post {
       display: none;
     }
     

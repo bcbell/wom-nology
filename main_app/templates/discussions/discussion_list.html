@@ -15,9 +15,10 @@
    
       <div class="topic-title">
         <div class="tt-title">Topic</div>
-        <div class="tt-topic">Category </div>
+        <div class="tt-category">Category </div>
+        <div class="tt-post">Replies</div>
         <div class="tt-post">Likes</div>
-        <div class="tt-l-post">Last Post</div>
+        <div class="tt-l-post">Posted On</div>
       </div>
       <!--Content-->
       {% for p in posts %} 
@@ -26,11 +27,16 @@
           <div class="d-title"><a href="{% url 'discussion_detail' p.id%}">{{p.title}} </a> </div>
           <div class="d-description">
             <p>{{p.post}} </p>
+            <p>{{p.category}}</p>
           </div>
           <div class="mobile-info">
-            <div class="mi-topics">
+             <div class="mi-topics">
               <p>Category</p>
               <p>{{p.category}}</p>
+            </div> 
+            <div class="mi-posts">
+              <p>Replies</p>
+              <p>{{p.replies}}</p>
             </div>
             <div class="mi-posts">
               <p>Likes</p>
@@ -43,7 +49,8 @@
             </div>
           </div>
         </div>
-        <div class="tc-topic">{{p.category}}</div>
+        <div class="tc-category">{{p.category}}</div>
+        <div class="tc-post">{{p.replies.count}}</div>
         <div class="tc-post">{{p.likes.count}}</div>
         <div class="tc-l-post">
           <div class="lp-user">{{p.posted_by}}</div>

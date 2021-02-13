@@ -111,7 +111,7 @@ def search(request):
     comments=Discussion.objects.all().order_by('-created_at')
     search_discussions=request.GET.get('search')
     if search_discussions:
-        comments=Discussion.objects.filter(Q(title__icontains=search_discussions) & Q(post__icontains=search_discussions))
+        comments=Discussion.objects.filter(Q(title__icontains=search_discussions) | Q(post__icontains=search_discussions))
         return render(request, 'main_app/search_list.html', {'comments': comments})
     else:
         return render(request, 'main_app/search_list.html', {'comments': comments})
