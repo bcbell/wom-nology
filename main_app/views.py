@@ -27,11 +27,12 @@ def about(request):
 
 @login_required
 def profile(request):
-    replies=Reply.objects.all()
+    replies=Reply.objects.filter(author=request.user)
     avatar=Photo.objects.all()
     posts=Discussion.objects.filter(posted_by=request.user)
+    profile_form=ProfileForm()
     profile=Profile.objects.all()
-    return render(request, 'account/profile.html', {'profile': profile, 'avatar':avatar, 'replies': replies, 'posts':posts})
+    return render(request, 'account/profile.html', {'profile': profile, 'avatar':avatar, 'replies': replies, 'posts':posts, 'profile_form':profile_form})
 
 def discussionDetail(request, discussion_id):
     avatar=Photo.objects.all()
@@ -125,6 +126,12 @@ def like (request, pk):
     discussion =get_object_or_404(Discussion, id=request.POST.get('discussion_id'))
     discussion.likes.add(request.user)
     return HttpResponseRedirect(reverse('discussion_detail', args=[str(pk)]))
+
+class ProfileUpdate(UpdateView):
+    model=Profile
+    fields=['first_name', 'last_name', 'email', 'location', 'it_area', 'linkedin_url', 'facebook_url', 'twitter_url', 'website_url', 'bio']
+    template_name='account/profile_update.html'
+    success_url='/accounts/profile/'
 
 class DiscussionUpdate(UpdateView):
     model=Discussion

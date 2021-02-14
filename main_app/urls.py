@@ -13,11 +13,11 @@ urlpatterns= [
 
 #Account Pages
     path('accounts/profile/', views.profile, name='profile'),
+    path('accounts/profile/<int:pk>/update/', views.ProfileUpdate.as_view(), name='profile_update'),
     path('accounts/discussions/', views.discussionUser, name='user_discussions'),
     path('accounts/signup/', views.signup, name='signup'),
     path('accounts/avatar', views.add_photo, name='avatar'),
    
-
 #Discussion Pages
     path('discussions/', views.discussionList, name='discussions'),
     path('discussions/<int:discussion_id>/', views.discussionDetail, name='discussion_detail'),

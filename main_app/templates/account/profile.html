@@ -5,6 +5,17 @@
 <div class="containerProfile">
   <div class="profile-header">
     <div class="profile-img">
+      {% comment %} {% if photo.user.id == user.id %}
+{% for photo in photo%}
+ <div class="profile-img">
+      <img src="{{photo.url}}" width="200" alt="Profile Image">
+    {%endfor%}
+{%else%}
+      <img src="https://i.imgur.com/XqWJSpA.png" width="200" alt="Profile Image">
+      {%endif%}
+
+    </div> {% endcomment %}
+
       <img src="https://i.imgur.com/XqWJSpA.png" width="200" alt="Profile Image">
     </div>
     <div class="profile-nav-info">
@@ -20,8 +31,8 @@
     </div>
     <div class="profile-option">
       <div class="notification">
-        <i class="fa fa-bell"></i>
-        <span class="alert-message">3</span>
+        <i class="fa fa-bell"><a href="{% url 'user_discussions' %}">{{posts.count}}</i></a>
+        <span class="alert-message">{{replies.count}}</span>
       </div>
     </div>
   </div>
@@ -41,7 +52,7 @@
           </p>
         </div>
         <div class="profile-btn">
-          <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"></i> Chat</button>
+          <button class="chatbtn" id="chatBtn"><i class="fa fa-comment"><a href="{% url 'discussions' %}"></i> Discussions</button></a>
           <button class="createbtn" id="Create-post"><i class="fa fa-plus"></i> Create</button>
         </div>
         <div class="user-rating">
@@ -96,16 +107,16 @@
         </div>
         <div class="profile-reviews tab">
          <p>
-{% if replies == user %}
-
+{% if replies %}
 <ul>
 {% for pr in replies %}
     <ol>
-        <a class= "userDiscussion" href="{% url 'discussion_detail' p.id%}"><h3>{{pr}}</h3></a>
-    {% if p.posted_by == user %} 
-    (<a class="userDiscussion" href='{% url 'discussion_update' p.id %}'>Edit</a> | <a class='userDiscussion' href='{% url 'discussion_delete' p.id %}'>Delete</a>)
-    {% endif%} 
+        <a class= "userDiscussion1" href="{% url 'discussion_detail' discussion_id %}"><h3>{{pr}}</h3></a>
+    {% if pr.posted_by == user %} 
+    (<a class="userDiscussion" href='{% url 'discussion_update' pr.id %}'>Edit</a> | <a class='userDiscussion' href='{% url 'discussion_delete' pr.id %}'>Delete</a>)
+    
     </ol>
+{% endif%} 
 {%endfor%}
 </ul>
 {%else%}
@@ -120,10 +131,12 @@
         </div>
         <div class="profile-settings tab">
           <div class="account-setting">
-            <h1>Account Setting</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit omnis eaque, expedita nostrum, facere libero provident laudantium. Quis, hic doloribus! Laboriosam nemo tempora praesentium. Culpa quo velit omnis, debitis maxime, sequi
+            <h1 class='UserAccount'>Account Setting</h1>
+            <a href="{% url 'profile_update' user.id %}"><button type="submit" class="editbtn">Edit Profile</a></button>
+
+            {% comment %} <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit omnis eaque, expedita nostrum, facere libero provident laudantium. Quis, hic doloribus! Laboriosam nemo tempora praesentium. Culpa quo velit omnis, debitis maxime, sequi
               animi dolores commodi odio placeat, magnam, cupiditate facilis impedit veniam? Soluta aliquam excepturi illum natus adipisci ipsum quo, voluptatem, nemo, commodi, molestiae doloribus magni et. Cum, saepe enim quam voluptatum vel debitis
-              nihil, recusandae, omnis officiis tenetur, ullam rerum.</p>
+              nihil, recusandae, omnis officiis tenetur, ullam rerum.</p> {% endcomment %}
           </div>
         </div>
       </div>
