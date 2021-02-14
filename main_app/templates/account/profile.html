@@ -111,7 +111,7 @@
 <ul>
 {% for pr in replies %}
     <ol>
-        <a class= "userDiscussion1" href="{% url 'discussion_detail' discussion_id %}"><h3>{{pr}}</h3></a>
+        <a class= "userDiscussion1" href="{% url 'discussion_detail' pr.discussion.id%}">{{pr.discussion}}<h5>{{pr}}</h5></a>
     {% if pr.posted_by == user %} 
     (<a class="userDiscussion" href='{% url 'discussion_update' pr.id %}'>Edit</a> | <a class='userDiscussion' href='{% url 'discussion_delete' pr.id %}'>Delete</a>)
     
